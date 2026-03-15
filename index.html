@@ -41,18 +41,33 @@
   header {
     background: linear-gradient(135deg, #1a1a35 0%, #0d0d1a 100%);
     border-bottom: 2px solid var(--border);
-    padding: 18px 32px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 32px rgba(0,0,0,0.6);
   }
 
+  .header-top-bar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
   .logo { display: flex; align-items: center; }
-  .logo svg { height: clamp(36px, 4.5vw, 54px); width: auto; display: block; overflow: visible; }
+  .logo svg { height: clamp(32px, 4vw, 48px); width: auto; display: block; overflow: visible; }
 
   header .tagline {
     font-size: 0.75rem;
@@ -65,19 +80,20 @@
   .header-actions {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 10px;
+    gap: 8px;
   }
 
   .header-btn-grid {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
   }
 
   .header-top-btns {
     display: flex;
     gap: 6px;
+    width: 100%;
   }
 
   .header-top-btns .btn {
@@ -703,8 +719,12 @@
 
 
 <header>
-  <div></div>
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;">
+  <!-- Linha superior: e-mail + botão sair no canto direito -->
+  <div class="header-top-bar">
+    <div class="user-info"><span class="user-email" id="user-email"></span><button class="btn-logout" onclick="logout()">Sair</button></div>
+  </div>
+  <!-- Centro: logo + subtítulo -->
+  <div class="header-center">
     <div class="logo"><svg viewBox="4 0 338 58" xmlns="http://www.w3.org/2000/svg" aria-label="PokeVault">
   <defs>
     <clipPath id="pb-circle"><circle cx="20" cy="20" r="20"/></clipPath>
@@ -725,10 +745,10 @@
 </svg></div>
     <div class="tagline">Controle de Coleção de Cartas</div>
   </div>
+  <!-- Linha inferior: status dos sets + botões de ação -->
+  <input type="file" id="file-sets-import" accept=".json" style="display:none" onchange="importSetsJSON(this)">
   <div class="header-actions">
-    <div class="user-info"><span class="user-email" id="user-email"></span><button class="btn-logout" onclick="logout()">Sair</button></div>
-    <div id="sets-status" style="font-size:0.72rem;color:var(--muted);text-align:right;line-height:1.4;grid-column:1/-1;"></div>
-    <input type="file" id="file-sets-import" accept=".json" style="display:none" onchange="importSetsJSON(this)">
+    <div id="sets-status" style="font-size:0.72rem;color:var(--muted);line-height:1.4;white-space:nowrap;"></div>
     <div class="header-btn-grid">
       <div class="header-top-btns">
         <a class="btn btn-secondary" href="https://api.pokemontcg.io/v2/sets?pageSize=250&orderBy=releaseDate" target="_blank" rel="noopener" title="Abre a API no navegador — salve o JSON e importe abaixo">&#127758; Baixar JSON da API</a>
