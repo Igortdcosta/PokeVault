@@ -1622,7 +1622,6 @@ function getFilteredSorted() {
   const fNome = document.getElementById('filter-nome').value.toLowerCase();
   const fRar = document.getElementById('filter-raridade').value;
   const fFoil = document.getElementById('filter-foil').value;
-  const fSet = document.getElementById('filter-set').value;
   const fCol = document.getElementById('filter-colecao').value;
   const fEst = document.getElementById('filter-estado').value;
   const fIdi = document.getElementById('filter-idioma').value;
@@ -1631,7 +1630,6 @@ function getFilteredSorted() {
     if (fNome && !c.nome.toLowerCase().includes(fNome)) return false;
     if (fRar && c.raridade !== fRar) return false;
     if (fFoil && c.foil !== fFoil) return false;
-    if (fSet && c.set !== fSet) return false;
     if (fCol && c.colecao !== fCol) return false;
     if (fEst && c.estado !== fEst) return false;
     if (fIdi && c.idioma !== fIdi) return false;
