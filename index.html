@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PokéDex de Cartas — Controle de Coleção</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d1a;
+    --surface: #13132b;
+    --surface2: #1a1a35;
+    --border: #2e2e5e;
+    --accent: #f6c90e;
+    --accent2: #e84393;
+    --accent3: #3dc8ff;
+    --green: #3dffb0;
+    --red: #ff5c7a;
+    --text: #e8e8ff;
+    --muted: #8080b0;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(246,201,14,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(61,200,255,0.07) 0%, transparent 60%);
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1a35 0%, #0d0d1a 100%);
+    border-bottom: 2px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 32px rgba(0,0,0,0.6);
+  }
+
+  .logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--accent) 30%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .logo span { color: var(--accent3); -webkit-text-fill-color: var(--accent3); }
+
+  header .tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-btn-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .header-top-btns {
+    display: flex;
+    gap: 6px;
+  }
+
+  .header-top-btns .btn {
+    flex: 1;
+  }
+
+  .btn-full {
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.18s;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #1a1200;
+  }
+  .btn-primary:hover { background: #ffe040; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(246,201,14,0.4); }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+  .btn-danger:hover { background: var(--red); color: white; }
+
+  .btn-edit {
+    background: transparent;
+    color: var(--accent3);
+    border: 1px solid var(--accent3);
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+  .btn-edit:hover { background: var(--accent3); color: #001a2e; }
+
+  .btn-sm {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+
+  main {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px 24px;
+  }
+
+  /* SUMMARY CARDS */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .summary-card.yellow::before { background: var(--accent); }
+  .summary-card.pink::before { background: var(--accent2); }
+  .summary-card.blue::before { background: var(--accent3); }
+  .summary-card.green::before { background: var(--green); }
+  .summary-card.red::before { background: var(--red); }
+
+  .summary-card:hover { border-color: #4a4a8a; }
+
+  .summary-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .summary-value {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .summary-card.yellow .summary-value { color: var(--accent); }
+  .summary-card.pink .summary-value { color: var(--accent2); }
+  .summary-card.blue .summary-value { color: var(--accent3); }
+  .summary-card.green .summary-value { color: var(--green); }
+  .summary-card.red .summary-value { color: var(--red); }
+
+  .summary-sub {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* FORM PANEL */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 14px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .panel-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.15rem;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+  }
+
+  .panel-body {
+    padding: 20px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-group.wide {
+    grid-column: span 2;
+  }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+  }
+
+  input, select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    padding: 9px 12px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    width: 100%;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent3);
+    box-shadow: 0 0 0 3px rgba(61,200,255,0.12);
+  }
+  select option { background: #1a1a35; }
+
+  .form-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  /* TABLE */
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1400px;
+  }
+
+  thead tr {
+    background: var(--surface2);
+  }
+
+  th {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  th:hover { color: var(--accent3); }
+  th.sorted { color: var(--accent); }
+
+  td {
+    padding: 9px 12px;
+    font-size: 0.83rem;
+    border-bottom: 1px solid rgba(46,46,94,0.5);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: rgba(61,200,255,0.04); }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* Raridade badges */
+  .badge-comum { background: rgba(128,128,176,0.2); color: #b0b0d0; border: 1px solid #4a4a8a; }
+  .badge-incomum { background: rgba(61,200,255,0.15); color: var(--accent3); border: 1px solid rgba(61,200,255,0.4); }
+  .badge-rara { background: rgba(246,201,14,0.15); color: var(--accent); border: 1px solid rgba(246,201,14,0.4); }
+  .badge-rara-holo { background: rgba(246,201,14,0.25); color: #ffe566; border: 1px solid var(--accent); }
+  .badge-rara-ultra { background: rgba(232,67,147,0.15); color: var(--accent2); border: 1px solid rgba(232,67,147,0.4); }
+  .badge-rara-secreta { background: linear-gradient(90deg, rgba(232,67,147,0.2), rgba(61,200,255,0.2)); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+  .badge-ilustracao { background: rgba(61,255,176,0.15); color: var(--green); border: 1px solid rgba(61,255,176,0.4); }
+  .badge-ilustracao-especial { background: rgba(61,255,176,0.25); color: #00ffc8; border: 1px solid var(--green); }
+
+  /* Foil badges */
+  .badge-normal { background: rgba(128,128,176,0.15); color: var(--muted); border: 1px solid #3a3a6a; }
+  .badge-holo { background: rgba(246,201,14,0.12); color: var(--accent); border: 1px solid rgba(246,201,14,0.3); }
+  .badge-reverse { background: rgba(61,200,255,0.12); color: var(--accent3); border: 1px solid rgba(61,200,255,0.3); }
+  .badge-fullart { background: rgba(232,67,147,0.15); color: var(--accent2); border: 1px solid rgba(232,67,147,0.3); }
+  .badge-vex { background: rgba(232,67,147,0.2); color: #ff80c0; border: 1px solid rgba(232,67,147,0.5); }
+  .badge-masterball { background: linear-gradient(90deg, rgba(61,200,255,0.2), rgba(232,67,147,0.2)); color: white; border: 1px solid rgba(255,255,255,0.25); }
+  .badge-dourada { background: linear-gradient(90deg, rgba(246,201,14,0.3), rgba(255,200,50,0.15)); color: #ffe566; border: 1px solid var(--accent); }
+
+  /* Estado badges */
+  .badge-nm { background: rgba(61,255,176,0.15); color: var(--green); border: 1px solid rgba(61,255,176,0.4); }
+  .badge-lp { background: rgba(61,200,255,0.15); color: var(--accent3); border: 1px solid rgba(61,200,255,0.3); }
+  .badge-mp { background: rgba(246,201,14,0.15); color: var(--accent); border: 1px solid rgba(246,201,14,0.3); }
+  .badge-dmg { background: rgba(255,92,122,0.15); color: var(--red); border: 1px solid rgba(255,92,122,0.3); }
+
+  .currency { font-weight: 700; }
+  .currency.positive { color: var(--green); }
+  .currency.negative { color: var(--red); }
+  .currency.neutral { color: var(--accent); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .empty-state .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
+  .empty-state p { font-size: 0.9rem; }
+
+  /* FILTERS */
+  .filters-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .filters-row input, .filters-row select {
+    width: auto;
+    min-width: 150px;
+    flex: 1;
+  }
+  .filter-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 95%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.7);
+    animation: slideUp 0.25s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent3);
+    font-weight: 700;
+    margin: 16px 0 10px;
+    padding-left: 8px;
+    border-left: 2px solid var(--accent3);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #5a5a9a; }
+
+  .toggle-icon { transition: transform 0.2s; display: inline-block; }
+  .collapsed .toggle-icon { transform: rotate(-90deg); }
+
+  .profit-indicator {
+    font-size: 0.7rem;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+    main { padding: 16px 12px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.wide { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Poké<span>Vault</span></div>
+    <div class="tagline">Controle de Coleção de Cartas</div>
+  </div>
+  <div class="header-actions">
+    <div id="sets-status" style="font-size:0.72rem;color:var(--muted);text-align:right;line-height:1.4;grid-column:1/-1;"></div>
+    <input type="file" id="file-sets-import" accept=".json" style="display:none" onchange="importSetsJSON(this)">
+    <div class="header-btn-grid">
+      <div class="header-top-btns">
+        <a class="btn btn-secondary" href="https://api.pokemontcg.io/v2/sets?pageSize=250&orderBy=releaseDate" target="_blank" rel="noopener" title="Abre a API no navegador — salve o JSON e importe abaixo">&#127758; Baixar JSON da API</a>
+        <button class="btn btn-secondary" id="btn-sync-sets" onclick="document.getElementById('file-sets-import').click()" title="Importar sets de um arquivo JSON">&#128229; Importar Sets</button>
+        <button class="btn btn-secondary" onclick="exportSetsJSON()" title="Exportar lista de sets atual como JSON">&#128228; Exportar Sets</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">⬇ Exportar CSV</button>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="openModal()">＋ Nova Carta</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- SUMMARY -->
+  <div class="summary-grid">
+    <div class="summary-card yellow">
+      <div class="summary-label">Total de Cartas</div>
+      <div class="summary-value" id="sum-total">0</div>
+      <div class="summary-sub" id="sum-unique">0 itens únicos</div>
+    </div>
+    <div class="summary-card pink">
+      <div class="summary-label">Custo Total Investido</div>
+      <div class="summary-value" id="sum-custo">R$ 0,00</div>
+      <div class="summary-sub">Valor pago pelas cartas</div>
+    </div>
+    <div class="summary-card blue">
+      <div class="summary-label">Valor de Mercado Total</div>
+      <div class="summary-value" id="sum-mercado">R$ 0,00</div>
+      <div class="summary-sub">Avaliação atual</div>
+    </div>
+    <div class="summary-card green">
+      <div class="summary-label">Valor de Venda Total</div>
+      <div class="summary-value" id="sum-venda">R$ 0,00</div>
+      <div class="summary-sub">Precificado para venda</div>
+    </div>
+    <div class="summary-card" id="sum-lucro-card">
+      <div class="summary-label">Lucro / Prejuízo</div>
+      <div class="summary-value" id="sum-lucro">R$ 0,00</div>
+      <div class="summary-sub" id="sum-lucro-pct">vs. custo investido</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <span class="panel-title">🔍 Filtros</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="panel-body">
+      <div class="filters-row">
+        <input type="text" id="filter-nome" placeholder="Buscar por nome..." oninput="renderTable()">
+        <select id="filter-raridade" onchange="renderTable()">
+          <option value="">Todas as raridades</option>
+        </select>
+        <select id="filter-foil" onchange="renderTable()">
+          <option value="">Todos os foils</option>
+        </select>
+        <select id="filter-set" onchange="filterSetChanged(); renderTable()">
+          <option value="">Todos os sets</option>
+        </select>
+        <select id="filter-colecao" onchange="renderTable()">
+          <option value="">Todas as coleções</option>
+        </select>
+        <select id="filter-estado" onchange="renderTable()">
+          <option value="">Todos os estados</option>
+        </select>
+        <select id="filter-idioma" onchange="renderTable()">
+          <option value="">Todos os idiomas</option>
+        </select>
+        <button class="btn btn-secondary btn-sm" onclick="clearFilters()">✕ Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="panel">
+    <div class="panel-header" style="cursor:default;">
+      <span class="panel-title">📦 Coleção</span>
+      <span style="font-size:0.8rem; color:var(--muted);" id="count-label">0 cartas</span>
+    </div>
+    <div class="panel-body" style="padding:0;">
+      <div class="table-wrapper">
+        <table id="main-table">
+          <thead>
+            <tr>
+              <th onclick="sortBy('nome')">Nome ↕</th>
+              <th onclick="sortBy('codigo')">Código ↕</th>
+              <th onclick="sortBy('raridade')">Raridade ↕</th>
+              <th onclick="sortBy('foil')">Foil/Holo ↕</th>
+              <th onclick="sortBy('set')">Set ↕</th>
+              <th onclick="sortBy('colecao')">Coleção ↕</th>
+              <th onclick="sortBy('estado')">Estado ↕</th>
+              <th onclick="sortBy('idioma')">Idioma ↕</th>
+              <th onclick="sortBy('quantidade')">Qtd ↕</th>
+              <th onclick="sortBy('custo')">Custo (R$) ↕</th>
+              <th onclick="sortBy('mercado')">Mercado (R$) ↕</th>
+              <th onclick="sortBy('venda')">Venda (R$) ↕</th>
+              <th onclick="sortBy('dataCompra')">Compra ↕</th>
+              <th onclick="sortBy('dataVenda')">Venda ↕</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="15"><div class="empty-state"><div class="icon">🃏</div><p>Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">✦ Nova Carta</div>
+
+    <div class="section-title">Identificação</div>
+    <div class="form-grid">
+      <div class="form-group wide">
+        <label>Nome da Carta *</label>
+        <input type="text" id="f-nome" placeholder="Ex: Charizard">
+      </div>
+      <div class="form-group">
+        <label>Código</label>
+        <input type="text" id="f-codigo" placeholder="Ex: 4/102">
+      </div>
+      <div class="form-group">
+        <label>Quantidade *</label>
+        <input type="number" id="f-quantidade" min="1" value="1">
+      </div>
+    </div>
+
+    <div class="section-title">Classificação</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Raridade *</label>
+        <select id="f-raridade"></select>
+      </div>
+      <div class="form-group">
+        <label>Tipo de Foil/Holografia *</label>
+        <select id="f-foil"></select>
+      </div>
+      <div class="form-group">
+        <label>Set *</label>
+        <select id="f-set" onchange="updateColecaoSelect()"></select>
+      </div>
+      <div class="form-group">
+        <label>Coleção *</label>
+        <select id="f-colecao"></select>
+      </div>
+      <div class="form-group">
+        <label>Estado *</label>
+        <select id="f-estado"></select>
+      </div>
+      <div class="form-group">
+        <label>Idioma *</label>
+        <select id="f-idioma"></select>
+      </div>
+    </div>
+
+    <div class="section-title">Valores Financeiros</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Custo (R$)</label>
+        <input type="number" id="f-custo" step="0.01" min="0" placeholder="0,00">
+      </div>
+      <div class="form-group">
+        <label>Valor de Mercado (R$)</label>
+        <input type="number" id="f-mercado" step="0.01" min="0" placeholder="0,00">
+      </div>
+      <div class="form-group">
+        <label>Valor de Venda (R$)</label>
+        <input type="number" id="f-venda" step="0.01" min="0" placeholder="0,00">
+      </div>
+    </div>
+
+    <div class="section-title">Datas</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Data da Compra</label>
+        <input type="date" id="f-dataCompra">
+      </div>
+      <div class="form-group">
+        <label>Data de Venda</label>
+        <input type="date" id="f-dataVenda">
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCard()">💾 Salvar Carta</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA DEFINITIONS ───────────────────────────────────────────────
+const RARIDADES = [
+  { value: 'comum', label: '● Comum (Círculo)', badge: 'badge-comum' },
+  { value: 'incomum', label: '◆ Incomum (Diamante)', badge: 'badge-incomum' },
+  { value: 'rara', label: '★ Rara (Estrela)', badge: 'badge-rara' },
+  { value: 'rara-holo', label: '★H Rara Holo', badge: 'badge-rara-holo' },
+  { value: 'rara-duplo', label: '★★ Rara Duplo Holo', badge: 'badge-rara-holo' },
+  { value: 'rara-ultra', label: '◆◆ Rara Ultra', badge: 'badge-rara-ultra' },
+  { value: 'rara-secreta', label: '★★★ Rara Secreta', badge: 'badge-rara-secreta' },
+  { value: 'rara-arco-iris', label: '✦ Rara Arco-íris', badge: 'badge-masterball' },
+  { value: 'ilustracao', label: '🎨 Rara de Ilustração', badge: 'badge-ilustracao' },
+  { value: 'ilustracao-especial', label: '🖼 Rara de Ilustração Especial', badge: 'badge-ilustracao-especial' },
+  { value: 'hiper-rara', label: '👑 Hiper Rara', badge: 'badge-dourada' },
+  { value: 'promo', label: '✩ Promo', badge: 'badge-holo' },
+];
+
+const FOILS = [
+  { value: 'normal', label: 'Normal', badge: 'badge-normal' },
+  { value: 'holo', label: 'Holo', badge: 'badge-holo' },
+  { value: 'reverse-holo', label: 'Reverse Holo', badge: 'badge-reverse' },
+  { value: 'full-art', label: 'Full Art', badge: 'badge-fullart' },
+  { value: 'vex', label: 'V / EX / GX', badge: 'badge-vex' },
+  { value: 'master-ball', label: 'Master Ball', badge: 'badge-masterball' },
+  { value: 'dourada', label: 'Dourada', badge: 'badge-dourada' },
+  { value: 'textura', label: 'Textura Especial', badge: 'badge-holo' },
+];
+
+const ESTADOS = [
+  { value: 'NM', label: 'NM — Near Mint', badge: 'badge-nm' },
+  { value: 'LP', label: 'LP/PL — Lightly Played', badge: 'badge-lp' },
+  { value: 'MP', label: 'MP/HP — Moderately Played', badge: 'badge-mp' },
+  { value: 'DMG', label: 'DMG — Damaged', badge: 'badge-dmg' },
+];
+
+const IDIOMAS = ['Português', 'Inglês', 'Espanhol', 'Japonês', 'Coreano', 'Francês', 'Alemão', 'Italiano', 'Chinês'];
+
+// ─── SETS (dinâmico via PokéTCG API) ────────────────────────────────
+const POKETCG_API = 'https://api.pokemontcg.io/v2/sets';
+const SETS_CACHE_KEY = 'pokevault_sets_cache';
+const SETS_CACHE_TTL = 24 * 60 * 60 * 1000; // 24h em ms
+
+// Opcional: cadastre-se em https://dev.pokemontcg.io para obter uma chave
+// e ter limites de requisição maiores. Deixe vazio para usar sem chave.
+const POKETCG_API_KEY = '';
+
+let SETS_DATA = {}; // preenchido dinamicamente
+
+// Fallback completo caso a API esteja indisponível e não haja cache
+const SETS_FALLBACK = {
+  'Wizards of the Coast': [
+    '1999 - Base Set (BS)', '1999 - Jungle (JU)', '1999 - Fossil (FO)',
+    '2000 - Base Set 2 (B2)', '2000 - Team Rocket (TR)', '2000 - Gym Heroes (G1)', '2000 - Gym Challenge (G2)',
+    '2001 - Neo Genesis (N1)', '2001 - Neo Discovery (N2)', '2001 - Southern Islands (SI)', '2001 - Neo Revelation (N3)',
+    '2002 - Neo Destiny (N4)', '2002 - Legendary Collection (LC)', '2002 - Expedition Base Set (EX)', '2002 - Aquapolis (AQ)',
+    '2003 - Skyridge (SK)',
+  ],
+  'EX Series': [
+    '2003 - EX Ruby & Sapphire (RS)', '2003 - EX Sandstorm (SS)', '2003 - EX Dragon (DR)',
+    '2004 - EX Team Magma vs Team Aqua (MA)', '2004 - EX Hidden Legends (HL)', '2004 - EX FireRed & LeafGreen (FL)', '2004 - EX Team Rocket Returns (RR)',
+    '2005 - EX Deoxys (DX)', '2005 - EX Emerald (EM)', '2005 - EX Unseen Forces (UF)', '2005 - EX Delta Species (DS)',
+    '2006 - EX Legend Maker (LM)', '2006 - EX Holon Phantoms (HP)', '2006 - EX Crystal Guardians (CG)', '2006 - EX Dragon Frontiers (DF)',
+    '2007 - EX Power Keepers (PK)',
+  ],
+  'Diamond & Pearl': [
+    '2007 - Diamond & Pearl (DP)', '2007 - Mysterious Treasures (MT)', '2007 - Secret Wonders (SW)',
+    '2008 - Great Encounters (GE)', '2008 - Majestic Dawn (MD)', '2008 - Legends Awakened (LA)', '2008 - Stormfront (SF)',
+  ],
+  'Platinum': [
+    '2009 - Platinum (PL)', '2009 - Rising Rivals (RR)', '2009 - Supreme Victors (SV)', '2009 - Arceus (AR)',
+  ],
+  'HeartGold & SoulSilver': [
+    '2010 - HeartGold & SoulSilver (HS)', '2010 - Unleashed (UL)', '2010 - Undaunted (UD)', '2010 - Triumphant (TM)',
+    '2011 - Call of Legends (CL)',
+  ],
+  'Black & White': [
+    '2011 - Black & White (BW)', '2011 - Emerging Powers (EP)', '2011 - Noble Victories (NV)',
+    '2012 - Next Destinies (NXD)', '2012 - Dark Explorers (DEX)', '2012 - Dragons Exalted (DRX)', '2012 - Dragon Vault (DV)', '2012 - Boundaries Crossed (BCR)',
+    '2013 - Plasma Storm (PLS)', '2013 - Plasma Freeze (PLF)', '2013 - Plasma Blast (PLB)', '2013 - Legendary Treasures (LTR)',
+  ],
+  'XY': [
+    '2014 - XY Base Set (XY)', '2014 - Flashfire (FLF)', '2014 - Furious Fists (FFI)', '2014 - Phantom Forces (PHF)',
+    '2015 - Primal Clash (PRC)', '2015 - Roaring Skies (ROS)', '2015 - Ancient Origins (AOR)', '2015 - BREAKthrough (BKT)',
+    '2016 - BREAKpoint (BKP)', '2016 - Generations (GEN)', '2016 - Fates Collide (FCO)', '2016 - Steam Siege (STS)', '2016 - Evolutions (EVO)',
+  ],
+  'Sun & Moon': [
+    '2017 - Sun & Moon (SM)', '2017 - Guardians Rising (GRI)', '2017 - Burning Shadows (BUS)', '2017 - Shining Legends (SLG)',
+    '2018 - Crimson Invasion (CIN)', '2018 - Ultra Prism (UPR)', '2018 - Forbidden Light (FLI)', '2018 - Celestial Storm (CES)', '2018 - Dragon Majesty (DRM)', '2018 - Lost Thunder (LOT)',
+    '2019 - Team Up (TEU)', '2019 - Unbroken Bonds (UNB)', '2019 - Unified Minds (UNM)', '2019 - Hidden Fates (HIF)', '2019 - Cosmic Eclipse (CEC)',
+  ],
+  'Sword & Shield': [
+    '2020 - Sword & Shield (SWSH)', '2020 - Rebel Clash (RCL)', '2020 - Darkness Ablaze (DAA)', '2020 - Champions Path (CPA)', '2020 - Vivid Voltage (VIV)',
+    '2021 - Shining Fates (SHF)', '2021 - Battle Styles (BST)', '2021 - Chilling Reign (CRE)', '2021 - Evolving Skies (EVS)', '2021 - Celebrations (CEL)', '2021 - Fusion Strike (FST)',
+    '2022 - Brilliant Stars (BRS)', '2022 - Astral Radiance (ASR)', '2022 - Pokemon Go (PGO)', '2022 - Lost Origin (LOR)', '2022 - Silver Tempest (SIT)', '2022 - Crown Zenith (CRZ)',
+  ],
+  'Scarlet & Violet': [
+    '2023 - Scarlet & Violet (SVI)', '2023 - Paldea Evolved (PAL)', '2023 - Obsidian Flames (OBF)', '2023 - 151 (MEW)', '2023 - Paradox Rift (PAR)',
+    '2024 - Paldean Fates (PAF)', '2024 - Temporal Forces (TEF)', '2024 - Twilight Masquerade (TWM)', '2024 - Shrouded Fable (SFA)', '2024 - Stellar Crown (SCR)', '2024 - Surging Sparks (SSP)',
+    '2025 - Prismatic Evolutions (PRE)', '2025 - Journey Together (JTG)',
+  ],
+  'Promos & Especiais': [
+    'WOTC Black Star Promos', 'Nintendo Black Star Promos', 'POP Series',
+    "McDonald's Promos", 'Trainer Kit', 'Outros Promos',
+  ],
+};
+
+function parseSetsFromJSON(data) {
+  // Aceita tanto o formato da API pokemontcg.io quanto o formato interno { Serie: [colecoes] }
+  if (Array.isArray(data)) {
+    const grouped = {};
+    data.forEach(s => {
+      const series = s.series || 'Outros';
+      if (!grouped[series]) grouped[series] = [];
+      const year = s.releaseDate ? s.releaseDate.substring(0, 4) : '';
+      const code = s.ptcgoCode || s.id || '';
+      const label = year ? `${year} - ${s.name} (${code})` : `${s.name} (${code})`;
+      grouped[series].push({ label, releaseDate: s.releaseDate || '0000' });
+    });
+    const sorted = {};
+    Object.keys(grouped).sort().forEach(series => {
+      sorted[series] = grouped[series]
+        .sort((a, b) => a.releaseDate.localeCompare(b.releaseDate))
+        .map(x => x.label);
+    });
+    return sorted;
+  }
+  // Formato interno: objeto { Serie: [colecoes] }
+  if (typeof data === 'object' && !Array.isArray(data)) return data;
+  throw new Error('Formato de JSON inválido');
+}
+
+function importSetsJSON(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const raw = JSON.parse(e.target.result);
+      // Suporta { data: [...] } (resposta direta da API) ou o array/objeto direto
+      const payload = raw.data || raw;
+      const parsed = parseSetsFromJSON(payload);
+      const total = Object.values(parsed).flat().length;
+      if (total === 0) throw new Error('Nenhum set encontrado no arquivo');
+      SETS_DATA = parsed;
+      localStorage.setItem(SETS_CACHE_KEY, JSON.stringify({ data: SETS_DATA, ts: Date.now() }));
+      rebuildSetSelects();
+      const series = Object.keys(SETS_DATA).length;
+      document.getElementById('sets-status').innerHTML =
+        `Sets: <span style="color:var(--green)">✓ ${total} sets importados</span><br>${series} séries`;
+      showToast(`✅ ${total} sets de ${series} séries importados!`);
+    } catch(err) {
+      showToast(`Erro ao importar: ${err.message}`, 'error');
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function exportSetsJSON() {
+  const total = Object.values(SETS_DATA).flat().length;
+  const blob = new Blob([JSON.stringify(SETS_DATA, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pokevault_sets.json'; a.click();
+  URL.revokeObjectURL(url);
+  showToast(`📤 ${total} sets exportados.`);
+}
+
+function initSets() {
+  const statusEl = document.getElementById('sets-status');
+  // Tenta carregar do cache salvo
+  try {
+    const cached = localStorage.getItem(SETS_CACHE_KEY);
+    if (cached) {
+      const { data, ts } = JSON.parse(cached);
+      if (data && Object.keys(data).length > 0) {
+        SETS_DATA = data;
+        rebuildSetSelects();
+        const d = new Date(ts);
+        const total = Object.values(SETS_DATA).flat().length;
+        statusEl.innerHTML = `Sets: <span style="color:var(--green)">✓ ${total} sets</span><br>${d.toLocaleDateString('pt-BR')}`;
+        return;
+      }
+    }
+  } catch(e) {}
+  // Sem cache: usa o fallback embutido
+  SETS_DATA = SETS_FALLBACK;
+  rebuildSetSelects();
+  const total = Object.values(SETS_DATA).flat().length;
+  statusEl.innerHTML = `Sets: <span style="color:var(--accent)">dados locais (${total} sets)</span>`;
+}
+
+function rebuildSetSelects() {
+  // Reconstruir select do formulário
+  const fSet = document.getElementById('f-set');
+  const fSetVal = fSet.value;
+  fSet.innerHTML = '';
+  Object.keys(SETS_DATA).forEach(s => {
+    fSet.innerHTML += `<option value="${s}">${s}</option>`;
+  });
+  if (fSetVal && SETS_DATA[fSetVal]) fSet.value = fSetVal;
+  updateColecaoSelect();
+
+  // Reconstruir filtro de set
+  const filterSet = document.getElementById('filter-set');
+  const filterSetVal = filterSet.value;
+  filterSet.innerHTML = '<option value="">Todas as séries</option>';
+  Object.keys(SETS_DATA).forEach(s => {
+    filterSet.innerHTML += `<option value="${s}">${s}</option>`;
+  });
+  if (filterSetVal && SETS_DATA[filterSetVal]) filterSet.value = filterSetVal;
+
+  // Reconstruir filtro de coleção
+  const filterColVal = document.getElementById('filter-colecao').value;
+  filterSetChanged();
+  if (filterColVal) {
+    const fc = document.getElementById('filter-colecao');
+    [...fc.options].forEach(o => { if (o.value === filterColVal) fc.value = filterColVal; });
+  }
+}
+
+function filterSetChanged() {
+  const setVal = document.getElementById('filter-set').value;
+  const fCol = document.getElementById('filter-colecao');
+  fCol.innerHTML = '<option value="">Todas as coleções</option>';
+  const cols = setVal ? (SETS_DATA[setVal] || []) : Object.values(SETS_DATA).flat();
+  cols.forEach(c => fCol.innerHTML += `<option value="${c}">${c}</option>`);
+}
+
+// ─── SUPABASE CONFIG ─────────────────────────────────────────────────
+// ⚠️ Substitua pelos seus valores do painel Supabase (Settings → API)
+const SUPABASE_URL = 'https://ualxqhrdkkxckvyeyhmn.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2BeGeIYXA1ZfGqAfy7aWig_6tzWxgSk';
+const TABLE = 'cartas';
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || '',
+      ...options.headers,
+    },
+    ...options,
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP ${res.status}`);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ─── STATE ───────────────────────────────────────────────────────────
+let cards = [];
+let editingId = null;
+let sortField = 'nome';
+let sortAsc = true;
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+async function init() {
+  // Carrega sets da API (ou cache) antes de popular os selects
+  initSets();
+  populateSelects();
+  populateFilters();
+  if (SUPABASE_URL.includes('SEU_PROJECT_ID')) {
+    showToast('⚠️ Configure o SUPABASE_URL e SUPABASE_KEY no código antes de usar!', 'warn');
+    renderTable();
+    updateSummary();
+    return;
+  }
+  await loadCards();
+}
+
+function populateSelects() {
+  // Raridade
+  const fRar = document.getElementById('f-raridade');
+  RARIDADES.forEach(r => {
+    fRar.innerHTML += `<option value="${r.value}">${r.label}</option>`;
+  });
+
+  // Foil
+  const fFoil = document.getElementById('f-foil');
+  FOILS.forEach(f => {
+    fFoil.innerHTML += `<option value="${f.value}">${f.label}</option>`;
+  });
+
+  // Sets carregados por initSets() → rebuildSetSelects
+  // Garante que os selects estejam preenchidos caso SETS_DATA já tenha dados
+  if (Object.keys(SETS_DATA).length > 0) {
+    const fSet = document.getElementById('f-set');
+    if (fSet.options.length === 0) rebuildSetSelects();
+  }
+
+  // Estado
+  const fEst = document.getElementById('f-estado');
+  ESTADOS.forEach(e => {
+    fEst.innerHTML += `<option value="${e.value}">${e.label}</option>`;
+  });
+
+  // Idioma
+  const fIdi = document.getElementById('f-idioma');
+  IDIOMAS.forEach(i => {
+    fIdi.innerHTML += `<option value="${i}">${i}</option>`;
+  });
+}
+
+function updateColecaoSelect() {
+  const setVal = document.getElementById('f-set').value;
+  const fCol = document.getElementById('f-colecao');
+  fCol.innerHTML = '';
+  const cols = setVal ? (SETS_DATA[setVal] || []) : Object.values(SETS_DATA).flat();
+  cols.forEach(c => {
+    fCol.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+}
+
+function populateFilters() {
+  const selectors = [
+    { id: 'filter-raridade', data: RARIDADES, labelKey: 'label', valKey: 'value' },
+    { id: 'filter-foil', data: FOILS, labelKey: 'label', valKey: 'value' },
+    { id: 'filter-estado', data: ESTADOS, labelKey: 'label', valKey: 'value' },
+  ];
+  selectors.forEach(({ id, data, labelKey, valKey }) => {
+    const sel = document.getElementById(id);
+    data.forEach(d => sel.innerHTML += `<option value="${d[valKey]}">${d[labelKey]}</option>`);
+  });
+
+  const fIdi = document.getElementById('filter-idioma');
+  IDIOMAS.forEach(i => fIdi.innerHTML += `<option value="${i}">${i}</option>`);
+
+  // Sets e coleções populados por initSets() via rebuildSetSelects
+  filterSetChanged();
+}
+
+function filterSet() { filterSetChanged(); }
+
+// ─── LOAD CARDS ───────────────────────────────────────────────────────
+async function loadCards() {
+  setLoading(true);
+  try {
+    const data = await sbFetch(`${TABLE}?select=*&order=created_at.desc`);
+    cards = (data || []).map(dbToCard);
+    renderTable();
+    updateSummary();
+  } catch(e) {
+    showToast('Erro ao carregar cartas: ' + e.message, 'error');
+  } finally {
+    setLoading(false);
+  }
+}
+
+function dbToCard(row) {
+  return {
+    id: row.id,
+    nome: row.nome || '',
+    codigo: row.codigo || '',
+    raridade: row.raridade || '',
+    foil: row.foil || '',
+    set: row.set_nome || '',
+    colecao: row.colecao || '',
+    estado: row.estado || '',
+    idioma: row.idioma || '',
+    quantidade: row.quantidade || 1,
+    custo: parseFloat(row.custo) || 0,
+    mercado: parseFloat(row.mercado) || 0,
+    venda: parseFloat(row.venda) || 0,
+    dataCompra: row.data_compra || '',
+    dataVenda: row.data_venda || '',
+  };
+}
+
+function cardToDb(card) {
+  return {
+    nome: card.nome,
+    codigo: card.codigo,
+    raridade: card.raridade,
+    foil: card.foil,
+    set_nome: card.set,
+    colecao: card.colecao,
+    estado: card.estado,
+    idioma: card.idioma,
+    quantidade: card.quantidade,
+    custo: card.custo,
+    mercado: card.mercado,
+    venda: card.venda,
+    data_compra: card.dataCompra || null,
+    data_venda: card.dataVenda || null,
+  };
+}
+
+// ─── SAVE / EDIT / DELETE ─────────────────────────────────────────────
+async function saveCard() {
+  const nome = document.getElementById('f-nome').value.trim();
+  if (!nome) { alert('Nome da carta é obrigatório!'); return; }
+  const qtd = parseInt(document.getElementById('f-quantidade').value) || 1;
+  const custo = parseFloat(document.getElementById('f-custo').value) || 0;
+  const mercado = parseFloat(document.getElementById('f-mercado').value) || 0;
+  const venda = parseFloat(document.getElementById('f-venda').value) || 0;
+
+  const card = {
+    nome,
+    codigo: document.getElementById('f-codigo').value.trim(),
+    raridade: document.getElementById('f-raridade').value,
+    foil: document.getElementById('f-foil').value,
+    set: document.getElementById('f-set').value,
+    colecao: document.getElementById('f-colecao').value,
+    estado: document.getElementById('f-estado').value,
+    idioma: document.getElementById('f-idioma').value,
+    quantidade: qtd,
+    custo, mercado, venda,
+    dataCompra: document.getElementById('f-dataCompra').value,
+    dataVenda: document.getElementById('f-dataVenda').value,
+  };
+
+  const saveBtn = document.querySelector('#modal .btn-primary');
+  saveBtn.textContent = '⏳ Salvando...';
+  saveBtn.disabled = true;
+
+  try {
+    if (editingId) {
+      await sbFetch(`${TABLE}?id=eq.${editingId}`, {
+        method: 'PATCH',
+        prefer: 'return=representation',
+        body: JSON.stringify(cardToDb(card)),
+      });
+      showToast('✅ Carta atualizada!');
+    } else {
+      await sbFetch(`${TABLE}`, {
+        method: 'POST',
+        prefer: 'return=representation',
+        body: JSON.stringify(cardToDb(card)),
+      });
+      showToast('✅ Carta adicionada!');
+    }
+    closeModal();
+    await loadCards();
+  } catch(e) {
+    showToast('Erro ao salvar: ' + e.message, 'error');
+  } finally {
+    saveBtn.textContent = '💾 Salvar Carta';
+    saveBtn.disabled = false;
+  }
+}
+
+async function deleteCard(id) {
+  if (!confirm('Remover esta carta da coleção?')) return;
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+    showToast('🗑 Carta removida.');
+    await loadCards();
+  } catch(e) {
+    showToast('Erro ao remover: ' + e.message, 'error');
+  }
+}
+
+function editCard(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+  editingId = id;
+  document.getElementById('f-nome').value = card.nome;
+  document.getElementById('f-codigo').value = card.codigo;
+  document.getElementById('f-raridade').value = card.raridade;
+  document.getElementById('f-foil').value = card.foil;
+  document.getElementById('f-set').value = card.set;
+  updateColecaoSelect();
+  document.getElementById('f-colecao').value = card.colecao;
+  document.getElementById('f-estado').value = card.estado;
+  document.getElementById('f-idioma').value = card.idioma;
+  document.getElementById('f-quantidade').value = card.quantidade;
+  document.getElementById('f-custo').value = card.custo;
+  document.getElementById('f-mercado').value = card.mercado;
+  document.getElementById('f-venda').value = card.venda;
+  document.getElementById('f-dataCompra').value = card.dataCompra;
+  document.getElementById('f-dataVenda').value = card.dataVenda;
+  document.getElementById('modal-title').textContent = '✦ Editar Carta';
+  openModal();
+}
+
+// ─── RENDER TABLE ─────────────────────────────────────────────────────
+function getFilteredSorted() {
+  const fNome = document.getElementById('filter-nome').value.toLowerCase();
+  const fRar = document.getElementById('filter-raridade').value;
+  const fFoil = document.getElementById('filter-foil').value;
+  const fSet = document.getElementById('filter-set').value;
+  const fCol = document.getElementById('filter-colecao').value;
+  const fEst = document.getElementById('filter-estado').value;
+  const fIdi = document.getElementById('filter-idioma').value;
+
+  let filtered = cards.filter(c => {
+    if (fNome && !c.nome.toLowerCase().includes(fNome)) return false;
+    if (fRar && c.raridade !== fRar) return false;
+    if (fFoil && c.foil !== fFoil) return false;
+    if (fSet && c.set !== fSet) return false;
+    if (fCol && c.colecao !== fCol) return false;
+    if (fEst && c.estado !== fEst) return false;
+    if (fIdi && c.idioma !== fIdi) return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    let va = a[sortField] ?? '', vb = b[sortField] ?? '';
+    if (typeof va === 'number') return sortAsc ? va - vb : vb - va;
+    return sortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+
+  return filtered;
+}
+
+function getBadge(arr, value) {
+  const item = arr.find(x => x.value === value);
+  return item ? item.badge : '';
+}
+
+function getLabel(arr, value) {
+  const item = arr.find(x => x.value === value);
+  return item ? item.label : value;
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const [y, m, day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+
+function formatBRL(v) {
+  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function renderTable() {
+  const data = getFilteredSorted();
+  const tbody = document.getElementById('table-body');
+  document.getElementById('count-label').textContent = `${data.length} carta${data.length !== 1 ? 's' : ''}`;
+
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="15"><div class="empty-state"><div class="icon">🃏</div><p>${cards.length === 0 ? 'Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.' : 'Nenhuma carta encontrada com os filtros aplicados.'}</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(c => {
+    const rarBadge = getBadge(RARIDADES, c.raridade);
+    const rarLabel = getLabel(RARIDADES, c.raridade).replace(/^.+?—?\s*/, '').replace(/\([^)]+\)/,'').trim();
+    const foilBadge = getBadge(FOILS, c.foil);
+    const foilLabel = getLabel(FOILS, c.foil);
+    const estBadge = getBadge(ESTADOS, c.estado);
+    const profit = (c.venda - c.custo) * c.quantidade;
+    const profitClass = profit > 0 ? 'positive' : profit < 0 ? 'negative' : 'neutral';
+
+    return `<tr>
+      <td><strong>${c.nome}</strong></td>
+      <td style="color:var(--muted);">${c.codigo || '—'}</td>
+      <td><span class="badge ${rarBadge}">${rarLabel || c.raridade}</span></td>
+      <td><span class="badge ${foilBadge}">${foilLabel}</span></td>
+      <td style="font-size:0.78rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;">${c.set}</td>
+      <td style="font-size:0.78rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
+      <td><span class="badge ${estBadge}">${c.estado}</span></td>
+      <td style="font-size:0.82rem;">${c.idioma}</td>
+      <td style="text-align:center;font-weight:700;">${c.quantidade}</td>
+      <td class="currency neutral">${formatBRL(c.custo)}</td>
+      <td class="currency">${formatBRL(c.mercado)}</td>
+      <td class="currency ${profitClass}">${formatBRL(c.venda)}</td>
+      <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataCompra)}</td>
+      <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataVenda)}</td>
+      <td>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-edit" onclick="editCard('${c.id}')">✏</button>
+          <button class="btn btn-danger" onclick="deleteCard('${c.id}')">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── SUMMARY ──────────────────────────────────────────────────────────
+function updateSummary() {
+  const total = cards.reduce((s, c) => s + c.quantidade, 0);
+  const custoBruto = cards.reduce((s, c) => s + c.custo * c.quantidade, 0);
+  const mercadoTotal = cards.reduce((s, c) => s + c.mercado * c.quantidade, 0);
+  const vendaTotal = cards.reduce((s, c) => s + c.venda * c.quantidade, 0);
+  const lucro = vendaTotal - custoBruto;
+  const pct = custoBruto > 0 ? ((lucro / custoBruto) * 100).toFixed(1) : 0;
+
+  document.getElementById('sum-total').textContent = total;
+  document.getElementById('sum-unique').textContent = `${cards.length} itens únicos`;
+  document.getElementById('sum-custo').textContent = formatBRL(custoBruto);
+  document.getElementById('sum-mercado').textContent = formatBRL(mercadoTotal);
+  document.getElementById('sum-venda').textContent = formatBRL(vendaTotal);
+  document.getElementById('sum-lucro').textContent = formatBRL(lucro);
+  document.getElementById('sum-lucro-pct').textContent = `${lucro >= 0 ? '+' : ''}${pct}% vs. custo`;
+
+  const lucroCard = document.getElementById('sum-lucro-card');
+  lucroCard.className = `summary-card ${lucro >= 0 ? 'green' : 'red'}`;
+  lucroCard.querySelector('::before');
+  const lv = lucroCard.querySelector('.summary-value');
+  lv.style.color = lucro >= 0 ? 'var(--green)' : 'var(--red)';
+}
+
+// ─── SORT ─────────────────────────────────────────────────────────────
+function sortBy(field) {
+  if (sortField === field) sortAsc = !sortAsc;
+  else { sortField = field; sortAsc = true; }
+  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  renderTable();
+}
+
+// ─── FILTERS ──────────────────────────────────────────────────────────
+function clearFilters() {
+  document.getElementById('filter-nome').value = '';
+  document.getElementById('filter-raridade').value = '';
+  document.getElementById('filter-foil').value = '';
+  document.getElementById('filter-set').value = '';
+  filterSet();
+  document.getElementById('filter-colecao').value = '';
+  document.getElementById('filter-estado').value = '';
+  document.getElementById('filter-idioma').value = '';
+  renderTable();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────
+function openModal() {
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  editingId = null;
+  document.getElementById('modal-title').textContent = '✦ Nova Carta';
+  ['f-nome','f-codigo','f-custo','f-mercado','f-venda','f-dataCompra','f-dataVenda'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f-quantidade').value = 1;
+}
+
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ─── PANEL TOGGLE ────────────────────────────────────────────────────
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const body = panel.querySelector('.panel-body');
+  const icon = header.querySelector('.toggle-icon');
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    panel.classList.remove('collapsed');
+  } else {
+    body.style.display = 'none';
+    panel.classList.add('collapsed');
+  }
+}
+
+// ─── TOAST & LOADING ─────────────────────────────────────────────────
+function showToast(msg, type = 'ok') {
+  let toast = document.getElementById('toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast';
+    toast.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;padding:12px 20px;border-radius:10px;font-family:Nunito,sans-serif;font-size:0.88rem;font-weight:700;max-width:340px;transition:opacity 0.4s;pointer-events:none;';
+    document.body.appendChild(toast);
+  }
+  const colors = { ok: '#1a1a35;color:#3dffb0;border:1px solid #3dffb0', error: '#2a0a10;color:#ff5c7a;border:1px solid #ff5c7a', warn: '#1a1400;color:#f6c90e;border:1px solid #f6c90e' };
+  toast.style.cssText += `background:${colors[type] || colors.ok};`;
+  toast.style.background = type === 'error' ? '#2a0a10' : type === 'warn' ? '#1a1400' : '#0a1a10';
+  toast.style.color = type === 'error' ? '#ff5c7a' : type === 'warn' ? '#f6c90e' : '#3dffb0';
+  toast.style.border = `1px solid ${type === 'error' ? '#ff5c7a' : type === 'warn' ? '#f6c90e' : '#3dffb0'}`;
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+}
+
+function setLoading(on) {
+  const label = document.getElementById('count-label');
+  if (on) label.textContent = '⏳ Carregando...';
+}
+
+// ─── EXPORT CSV ──────────────────────────────────────────────────────
+function exportCSV() {
+  if (cards.length === 0) { alert('Nenhuma carta para exportar!'); return; }
+  const headers = ['Nome','Código','Raridade','Foil/Holo','Set','Coleção','Estado','Idioma','Quantidade','Custo','Mercado','Venda','Data Compra','Data Venda'];
+  const rows = cards.map(c => [
+    c.nome, c.codigo, c.raridade, c.foil, c.set, c.colecao, c.estado, c.idioma,
+    c.quantidade, c.custo, c.mercado, c.venda, c.dataCompra, c.dataVenda
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'pokevault_colecao.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+(async () => { await init(); })();
+</script>
+</body>
+</html>
