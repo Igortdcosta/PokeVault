@@ -813,9 +813,6 @@
         <select id="filter-foil" onchange="renderTable()">
           <option value="">Todos os foils</option>
         </select>
-        <select id="filter-set" onchange="filterSetChanged(); renderTable()">
-          <option value="">Todos os sets</option>
-        </select>
         <select id="filter-colecao" onchange="renderTable()">
           <option value="">Todas as coleções</option>
         </select>
@@ -845,7 +842,6 @@
               <th onclick="sortBy('codigo')">Código ↕</th>
               <th onclick="sortBy('raridade')">Raridade ↕</th>
               <th onclick="sortBy('foil')">Foil/Holo ↕</th>
-              <th onclick="sortBy('set')">Set ↕</th>
               <th onclick="sortBy('colecao')">Coleção ↕</th>
               <th onclick="sortBy('estado')">Estado ↕</th>
               <th onclick="sortBy('idioma')">Idioma ↕</th>
@@ -859,7 +855,7 @@
             </tr>
           </thead>
           <tbody id="table-body">
-            <tr><td colspan="15"><div class="empty-state"><div class="icon">🃏</div><p>Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.</p></div></td></tr>
+            <tr><td colspan="14"><div class="empty-state"><div class="icon">🃏</div><p>Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.</p></div></td></tr>
           </tbody>
         </table>
       </div>
@@ -897,10 +893,6 @@
       <div class="form-group">
         <label>Tipo de Foil/Holografia *</label>
         <select id="f-foil"></select>
-      </div>
-      <div class="form-group">
-        <label>Set *</label>
-        <select id="f-set" onchange="updateColecaoSelect()"></select>
       </div>
       <div class="form-group">
         <label>Coleção *</label>
@@ -1151,40 +1143,22 @@ function initSets() {
 }
 
 function rebuildSetSelects() {
-  // Reconstruir select do formulário
-  const fSet = document.getElementById('f-set');
-  const fSetVal = fSet.value;
-  fSet.innerHTML = '';
-  Object.keys(SETS_DATA).forEach(s => {
-    fSet.innerHTML += `<option value="${s}">${s}</option>`;
-  });
-  if (fSetVal && SETS_DATA[fSetVal]) fSet.value = fSetVal;
-  updateColecaoSelect();
-
-  // Reconstruir filtro de set
-  const filterSet = document.getElementById('filter-set');
-  const filterSetVal = filterSet.value;
-  filterSet.innerHTML = '<option value="">Todas as séries</option>';
-  Object.keys(SETS_DATA).forEach(s => {
-    filterSet.innerHTML += `<option value="${s}">${s}</option>`;
-  });
-  if (filterSetVal && SETS_DATA[filterSetVal]) filterSet.value = filterSetVal;
-
-  // Reconstruir filtro de coleção
+  // Reconstruir filtro de coleção com todas as coleções
   const filterColVal = document.getElementById('filter-colecao').value;
-  filterSetChanged();
-  if (filterColVal) {
-    const fc = document.getElementById('filter-colecao');
-    [...fc.options].forEach(o => { if (o.value === filterColVal) fc.value = filterColVal; });
-  }
+  const fc = document.getElementById('filter-colecao');
+  fc.innerHTML = '<option value="">Todas as coleções</option>';
+  Object.values(SETS_DATA).flat().forEach(c => {
+    fc.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+  if (filterColVal) fc.value = filterColVal;
 }
 
 function filterSetChanged() {
-  const setVal = document.getElementById('filter-set').value;
-  const fCol = document.getElementById('filter-colecao');
-  fCol.innerHTML = '<option value="">Todas as coleções</option>';
-  const cols = setVal ? (SETS_DATA[setVal] || []) : Object.values(SETS_DATA).flat();
-  cols.forEach(c => fCol.innerHTML += `<option value="${c}">${c}</option>`);
+  const fc = document.getElementById('filter-colecao');
+  fc.innerHTML = '<option value="">Todas as coleções</option>';
+  Object.values(SETS_DATA).flat().forEach(c => {
+    fc.innerHTML += `<option value="${c}">${c}</option>`;
+  });
 }
 
 // ─── SUPABASE CONFIG ─────────────────────────────────────────────────
@@ -1362,12 +1336,8 @@ function populateSelects() {
     fFoil.innerHTML += `<option value="${f.value}">${f.label}</option>`;
   });
 
-  // Sets carregados por initSets() → rebuildSetSelects
-  // Garante que os selects estejam preenchidos caso SETS_DATA já tenha dados
-  if (Object.keys(SETS_DATA).length > 0) {
-    const fSet = document.getElementById('f-set');
-    if (fSet.options.length === 0) rebuildSetSelects();
-  }
+  // Coleções carregadas por initSets() → rebuildSetSelects
+  if (Object.keys(SETS_DATA).length > 0) rebuildSetSelects();
 
   // Estado
   const fEst = document.getElementById('f-estado');
@@ -1383,7 +1353,7 @@ function populateSelects() {
 }
 
 function updateColecaoSelect() {
-  // Ao trocar o set, limpa a busca e redefine o valor oculto
+  // Limpa a busca e redefine o valor oculto
   const searchInput = document.getElementById('f-colecao-search');
   if (searchInput) {
     searchInput.value = '';
@@ -1393,22 +1363,18 @@ function updateColecaoSelect() {
 }
 
 function getColecaoOptions(query) {
-  const setVal = document.getElementById('f-set').value;
-  const all = setVal ? (SETS_DATA[setVal] || []) : Object.values(SETS_DATA).flat();
-  if (!query) return all.map(c => ({ label: c, serie: setVal || getSerie(c) }));
+  if (!query) {
+    return Object.entries(SETS_DATA).flatMap(([serie, cols]) =>
+      cols.map(c => ({ label: c, serie }))
+    );
+  }
   const q = query.toLowerCase();
   const results = [];
-  if (setVal) {
-    (SETS_DATA[setVal] || []).forEach(c => {
-      if (c.toLowerCase().includes(q)) results.push({ label: c, serie: setVal });
+  Object.entries(SETS_DATA).forEach(([serie, cols]) => {
+    cols.forEach(c => {
+      if (c.toLowerCase().includes(q)) results.push({ label: c, serie });
     });
-  } else {
-    Object.entries(SETS_DATA).forEach(([serie, cols]) => {
-      cols.forEach(c => {
-        if (c.toLowerCase().includes(q)) results.push({ label: c, serie });
-      });
-    });
-  }
+  });
   return results;
 }
 
@@ -1550,7 +1516,7 @@ async function saveCard() {
     codigo: document.getElementById('f-codigo').value.trim(),
     raridade: document.getElementById('f-raridade').value,
     foil: document.getElementById('f-foil').value,
-    set: document.getElementById('f-set').value,
+    set: getSerie(document.getElementById('f-colecao').value),
     colecao: document.getElementById('f-colecao').value,
     estado: document.getElementById('f-estado').value,
     idioma: document.getElementById('f-idioma').value,
@@ -1609,8 +1575,6 @@ function editCard(id) {
   document.getElementById('f-codigo').value = card.codigo;
   document.getElementById('f-raridade').value = card.raridade;
   document.getElementById('f-foil').value = card.foil;
-  document.getElementById('f-set').value = card.set;
-  updateColecaoSelect();
   document.getElementById('f-colecao').value = card.colecao;
   document.getElementById('f-colecao-search').value = card.colecao;
   document.getElementById('f-estado').value = card.estado;
@@ -1681,7 +1645,7 @@ function renderTable() {
   document.getElementById('count-label').textContent = `${data.length} carta${data.length !== 1 ? 's' : ''}`;
 
   if (data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="15"><div class="empty-state"><div class="icon">🃏</div><p>${cards.length === 0 ? 'Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.' : 'Nenhuma carta encontrada com os filtros aplicados.'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="14"><div class="empty-state"><div class="icon">🃏</div><p>${cards.length === 0 ? 'Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.' : 'Nenhuma carta encontrada com os filtros aplicados.'}</p></div></td></tr>`;
     return;
   }
 
@@ -1699,8 +1663,7 @@ function renderTable() {
       <td style="color:var(--muted);">${c.codigo || '—'}</td>
       <td><span class="badge ${rarBadge}">${rarLabel || c.raridade}</span></td>
       <td><span class="badge ${foilBadge}">${foilLabel}</span></td>
-      <td style="font-size:0.78rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;">${c.set}</td>
-      <td style="font-size:0.78rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
+      <td style="font-size:0.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
       <td><span class="badge ${estBadge}">${c.estado}</span></td>
       <td style="font-size:0.82rem;">${c.idioma}</td>
       <td style="text-align:center;font-weight:700;">${c.quantidade}</td>
@@ -1756,8 +1719,6 @@ function clearFilters() {
   document.getElementById('filter-nome').value = '';
   document.getElementById('filter-raridade').value = '';
   document.getElementById('filter-foil').value = '';
-  document.getElementById('filter-set').value = '';
-  filterSet();
   document.getElementById('filter-colecao').value = '';
   document.getElementById('filter-estado').value = '';
   document.getElementById('filter-idioma').value = '';
