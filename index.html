@@ -784,7 +784,7 @@
     <div class="summary-card blue">
       <div class="summary-label">Valor de Mercado Total</div>
       <div class="summary-value" id="sum-mercado">R$ 0,00</div>
-      <div class="summary-sub">Avaliação atual</div>
+      <div class="summary-sub" id="sum-mercado-data">Avaliação atual</div>
     </div>
     <div class="summary-card green">
       <div class="summary-label">Valor de Venda Total</div>
@@ -899,7 +899,7 @@
         <div style="position:relative;">
           <input type="text" id="f-colecao-search" placeholder="Buscar coleção..." oninput="searchColecao(this.value)" onfocus="showColecaoDropdown()" autocomplete="off" style="padding-right:32px;">
           <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:0.8rem;">▼</span>
-          <div id="f-colecao-dropdown" style="display:none;position:absolute;z-index:500;width:100%;max-height:200px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+          <div id="f-colecao-dropdown" style="display:none;position:absolute;z-index:500;width:100%;max-height:320px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
           </div>
         </div>
         <input type="hidden" id="f-colecao">
@@ -990,6 +990,7 @@ const IDIOMAS = ['Português', 'Inglês', 'Espanhol', 'Japonês', 'Coreano', 'Fr
 // ─── SETS (dinâmico via PokéTCG API) ────────────────────────────────
 const POKETCG_API = 'https://api.pokemontcg.io/v2/sets';
 const SETS_CACHE_KEY = 'pokevault_sets_cache_v2';
+const MERCADO_DATE_KEY = 'pokevault_mercado_updated';
 const SETS_CACHE_TTL = 24 * 60 * 60 * 1000; // 24h em ms
 
 // Opcional: cadastre-se em https://dev.pokemontcg.io para obter uma chave
@@ -1424,7 +1425,7 @@ function renderColecaoDropdown(items) {
 
 function searchColecao(query) {
   const items = getColecaoOptions(query);
-  renderColecaoDropdown(items.slice(0, 50));
+  renderColecaoDropdown(items);
 }
 
 function showColecaoDropdown() {
@@ -1433,9 +1434,9 @@ function showColecaoDropdown() {
   // Se SETS_DATA ainda vazio, tenta inicializar
   if (items.length === 0 && Object.keys(SETS_DATA).length === 0) {
     initSets();
-    renderColecaoDropdown(getColecaoOptions(query).slice(0, 50));
+    renderColecaoDropdown(getColecaoOptions(query));
   } else {
-    renderColecaoDropdown(items.slice(0, 50));
+    renderColecaoDropdown(items);
   }
 }
 
@@ -1537,6 +1538,7 @@ async function saveCard() {
   const qtd = parseInt(document.getElementById('f-quantidade').value) || 1;
   const custo = parseFloat(document.getElementById('f-custo').value) || 0;
   const mercado = parseFloat(document.getElementById('f-mercado').value) || 0;
+  const mercadoAnterior = editingId ? (cards.find(c => c.id === editingId)?.mercado || 0) : 0;
   const venda = parseFloat(document.getElementById('f-venda').value) || 0;
 
   const card = {
@@ -1573,6 +1575,10 @@ async function saveCard() {
         body: JSON.stringify(cardToDb(card)),
       });
       showToast('✅ Carta adicionada!');
+    }
+    // Salva data de atualização do mercado se o valor mudou
+    if (mercado !== mercadoAnterior || !editingId) {
+      localStorage.setItem(MERCADO_DATE_KEY, new Date().toISOString());
     }
     closeModal();
     await loadCards();
@@ -1721,6 +1727,14 @@ function updateSummary() {
   document.getElementById('sum-unique').textContent = `${cards.length} itens únicos`;
   document.getElementById('sum-custo').textContent = formatBRL(custoBruto);
   document.getElementById('sum-mercado').textContent = formatBRL(mercadoTotal);
+  const mercadoDateRaw = localStorage.getItem(MERCADO_DATE_KEY);
+  const mercadoDateEl = document.getElementById('sum-mercado-data');
+  if (mercadoDateRaw) {
+    const d = new Date(mercadoDateRaw);
+    mercadoDateEl.textContent = `Atualizado em ${d.toLocaleDateString('pt-BR')} às ${d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
+  } else {
+    mercadoDateEl.textContent = 'Nunca atualizado';
+  }
   document.getElementById('sum-venda').textContent = formatBRL(vendaTotal);
   document.getElementById('sum-lucro').textContent = formatBRL(lucro);
   document.getElementById('sum-lucro-pct').textContent = `${lucro >= 0 ? '+' : ''}${pct}% vs. custo`;
