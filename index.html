@@ -168,7 +168,6 @@
     padding: 28px 24px;
   }
 
-  /* SUMMARY CARDS */
   .summary-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -196,7 +195,6 @@
   .summary-card.blue::before { background: var(--accent3); }
   .summary-card.green::before { background: var(--green); }
   .summary-card.red::before { background: var(--red); }
-
   .summary-card:hover { border-color: #4a4a8a; }
 
   .summary-label {
@@ -226,7 +224,6 @@
     margin-top: 4px;
   }
 
-  /* FORM PANEL */
   .panel {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -253,9 +250,7 @@
     color: var(--accent);
   }
 
-  .panel-body {
-    padding: 20px;
-  }
+  .panel-body { padding: 20px; }
 
   .form-grid {
     display: grid;
@@ -263,15 +258,8 @@
     gap: 14px;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .form-group.wide {
-    grid-column: span 2;
-  }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.wide { grid-column: span 2; }
 
   label {
     font-size: 0.75rem;
@@ -306,21 +294,10 @@
     justify-content: flex-end;
   }
 
-  /* TABLE */
-  .table-wrapper {
-    overflow-x: auto;
-    border-radius: var(--radius);
-  }
+  .table-wrapper { overflow-x: auto; border-radius: var(--radius); }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1400px;
-  }
-
-  thead tr {
-    background: var(--surface2);
-  }
+  table { width: 100%; border-collapse: collapse; min-width: 1400px; }
+  thead tr { background: var(--surface2); }
 
   th {
     padding: 10px 12px;
@@ -346,11 +323,8 @@
     white-space: nowrap;
   }
 
-  tbody tr {
-    transition: background 0.15s;
-  }
+  tbody tr { transition: background 0.15s; }
   tbody tr:hover { background: rgba(61,200,255,0.04); }
-
   tbody tr:last-child td { border-bottom: none; }
 
   .badge {
@@ -362,7 +336,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* Raridade badges */
   .badge-comum { background: rgba(128,128,176,0.2); color: #b0b0d0; border: 1px solid #4a4a8a; }
   .badge-incomum { background: rgba(61,200,255,0.15); color: var(--accent3); border: 1px solid rgba(61,200,255,0.4); }
   .badge-rara { background: rgba(246,201,14,0.15); color: var(--accent); border: 1px solid rgba(246,201,14,0.4); }
@@ -371,8 +344,6 @@
   .badge-rara-secreta { background: linear-gradient(90deg, rgba(232,67,147,0.2), rgba(61,200,255,0.2)); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
   .badge-ilustracao { background: rgba(61,255,176,0.15); color: var(--green); border: 1px solid rgba(61,255,176,0.4); }
   .badge-ilustracao-especial { background: rgba(61,255,176,0.25); color: #00ffc8; border: 1px solid var(--green); }
-
-  /* Foil badges */
   .badge-normal { background: rgba(128,128,176,0.15); color: var(--muted); border: 1px solid #3a3a6a; }
   .badge-holo { background: rgba(246,201,14,0.12); color: var(--accent); border: 1px solid rgba(246,201,14,0.3); }
   .badge-reverse { background: rgba(61,200,255,0.12); color: var(--accent3); border: 1px solid rgba(61,200,255,0.3); }
@@ -380,8 +351,6 @@
   .badge-vex { background: rgba(232,67,147,0.2); color: #ff80c0; border: 1px solid rgba(232,67,147,0.5); }
   .badge-masterball { background: linear-gradient(90deg, rgba(61,200,255,0.2), rgba(232,67,147,0.2)); color: white; border: 1px solid rgba(255,255,255,0.25); }
   .badge-dourada { background: linear-gradient(90deg, rgba(246,201,14,0.3), rgba(255,200,50,0.15)); color: #ffe566; border: 1px solid var(--accent); }
-
-  /* Estado badges */
   .badge-nm { background: rgba(61,255,176,0.15); color: var(--green); border: 1px solid rgba(61,255,176,0.4); }
   .badge-lp { background: rgba(61,200,255,0.15); color: var(--accent3); border: 1px solid rgba(61,200,255,0.3); }
   .badge-mp { background: rgba(246,201,14,0.15); color: var(--accent); border: 1px solid rgba(246,201,14,0.3); }
@@ -392,15 +361,10 @@
   .currency.negative { color: var(--red); }
   .currency.neutral { color: var(--accent); }
 
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-  }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.4; }
   .empty-state p { font-size: 0.9rem; }
 
-  /* FILTERS */
   .filters-row {
     display: flex;
     gap: 10px;
@@ -408,18 +372,9 @@
     margin-bottom: 16px;
     align-items: center;
   }
-  .filters-row input, .filters-row select {
-    width: auto;
-    min-width: 150px;
-    flex: 1;
-  }
-  .filter-label {
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-weight: 700;
-  }
+  .filters-row input, .filters-row select { width: auto; min-width: 150px; flex: 1; }
+  .filter-label { font-size: 0.78rem; color: var(--muted); font-weight: 700; }
 
-  /* MODAL */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -471,7 +426,6 @@
     border-left: 2px solid var(--accent3);
   }
 
-  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 3px; }
@@ -479,14 +433,6 @@
 
   .toggle-icon { transition: transform 0.2s; display: inline-block; }
   .collapsed .toggle-icon { transform: rotate(-90deg); }
-
-  .profit-indicator {
-    font-size: 0.7rem;
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
 
   @media (max-width: 768px) {
     header { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
@@ -505,19 +451,9 @@
   }
   .colecao-option:last-child { border-bottom: none; }
   .colecao-option:hover, .colecao-option.active { background: rgba(61,200,255,0.1); color: var(--accent3); }
-  .colecao-option .colecao-serie {
-    font-size: 0.68rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .colecao-empty {
-    padding: 12px 14px;
-    font-size: 0.82rem;
-    color: var(--muted);
-    text-align: center;
-  }
+  .colecao-option .colecao-serie { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+  .colecao-empty { padding: 12px 14px; font-size: 0.82rem; color: var(--muted); text-align: center; }
 
-  /* ── AUTH SCREEN ── */
   #auth-screen {
     display: none;
     position: fixed;
@@ -532,12 +468,7 @@
   }
   #auth-screen.visible { display: flex; }
 
-  .auth-logo {
-    display: flex;
-    justify-content: center;
-    line-height: 0;
-    margin-bottom: 6px;
-  }
+  .auth-logo { display: flex; justify-content: center; line-height: 0; margin-bottom: 6px; }
   .auth-logo svg { width: 100%; height: auto; display: block; }
 
   .auth-subtitle {
@@ -569,197 +500,127 @@
     gap: 4px;
   }
   .auth-tab {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--muted);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.18s;
+    flex: 1; padding: 8px; border: none; border-radius: 8px;
+    background: transparent; color: var(--muted);
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem;
+    cursor: pointer; transition: all 0.18s;
   }
-  .auth-tab.active {
-    background: var(--surface);
-    color: var(--text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
+  .auth-tab.active { background: var(--surface); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
   .auth-form { display: flex; flex-direction: column; gap: 14px; }
-
   .auth-form label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    display: block;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--muted); margin-bottom: 4px; display: block;
   }
-
   .auth-form input {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    font-size: 0.9rem;
-    padding: 11px 14px;
-    transition: border-color 0.18s, box-shadow 0.18s;
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem; padding: 11px 14px; transition: border-color 0.18s, box-shadow 0.18s;
   }
-  .auth-form input:focus {
-    outline: none;
-    border-color: var(--accent3);
-    box-shadow: 0 0 0 3px rgba(61,200,255,0.12);
-  }
+  .auth-form input:focus { outline: none; border-color: var(--accent3); box-shadow: 0 0 0 3px rgba(61,200,255,0.12); }
 
   .auth-btn {
-    width: 100%;
-    padding: 13px;
-    border-radius: 10px;
-    border: none;
-    background: var(--accent3);
-    color: #1a1200;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.18s;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
+    width: 100%; padding: 13px; border-radius: 10px; border: none;
+    background: var(--accent3); color: #1a1200;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+    cursor: pointer; transition: all 0.18s; margin-top: 4px; letter-spacing: 0.5px;
   }
   .auth-btn:hover { background: #4a8fd4; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(59,100,148,0.5); }
   .auth-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
   .auth-error {
-    background: rgba(255,92,122,0.1);
-    border: 1px solid rgba(255,92,122,0.3);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    color: var(--red);
-    display: none;
+    background: rgba(255,92,122,0.1); border: 1px solid rgba(255,92,122,0.3);
+    border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: var(--red); display: none;
   }
   .auth-error.visible { display: block; }
 
-  /* User info in header */
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-  .user-email {
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .user-info { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--muted); }
+  .user-email { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .btn-logout {
-    padding: 5px 12px;
-    font-size: 0.75rem;
-    background: transparent;
-    color: var(--red);
-    border: 1px solid var(--red);
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    transition: all 0.18s;
+    padding: 5px 12px; font-size: 0.75rem; background: transparent;
+    color: var(--red); border: 1px solid var(--red); border-radius: 6px;
+    cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; transition: all 0.18s;
   }
   .btn-logout:hover { background: var(--red); color: white; }
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
 <div id="auth-screen" class="visible">
   <div class="auth-card">
-      <div class="auth-logo"><svg viewBox="4 0 338 58" xmlns="http://www.w3.org/2000/svg" aria-label="PokeVault">
-  <defs>
-    <clipPath id="pb-circle"><circle cx="20" cy="20" r="20"/></clipPath>
-  </defs>
-  <!-- P centered layout: total content ~470px wide, starting at x=4 -->
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="4" y="52">P</text>
-  <g transform="translate(37,12)">
-    <circle cx="20" cy="20" r="20" fill="#21537a"/>
-    <path d="M 0,20 A 20,20 0 0 1 40,20 Z" fill="#d42726"/>
-    <path d="M 40,20 A 20,20 0 0 1 0,20 Z" fill="#f8f8f8"/>
-    <rect x="0" y="17" width="40" height="6" fill="#1a1a1a"/>
-    <circle cx="20" cy="20" r="20" fill="none" stroke="#21537a" stroke-width="3"/>
-    <circle cx="20" cy="20" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-    <circle cx="20" cy="20" r="3.8" fill="#d42726" stroke="#1a1a1a" stroke-width="1"/>
-  </g>
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="81" y="52">KE</text>
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#42545f" x="170" y="52">VAULT</text>
-</svg>
+    <div class="auth-logo"><svg viewBox="4 0 338 58" xmlns="http://www.w3.org/2000/svg" aria-label="PokeVault">
+      <defs><clipPath id="pb-circle"><circle cx="20" cy="20" r="20"/></clipPath></defs>
+      <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="4" y="52">P</text>
+      <g transform="translate(37,12)">
+        <circle cx="20" cy="20" r="20" fill="#21537a"/>
+        <path d="M 0,20 A 20,20 0 0 1 40,20 Z" fill="#d42726"/>
+        <path d="M 40,20 A 20,20 0 0 1 0,20 Z" fill="#f8f8f8"/>
+        <rect x="0" y="17" width="40" height="6" fill="#1a1a1a"/>
+        <circle cx="20" cy="20" r="20" fill="none" stroke="#21537a" stroke-width="3"/>
+        <circle cx="20" cy="20" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+        <circle cx="20" cy="20" r="3.8" fill="#d42726" stroke="#1a1a1a" stroke-width="1"/>
+      </g>
+      <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="81" y="52">KE</text>
+      <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#42545f" x="170" y="52">VAULT</text>
+    </svg></div>
+    <div class="auth-subtitle">Controle de Coleção de Cartas</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Entrar</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">Cadastrar</button>
+    </div>
+    <div class="auth-form">
+      <div>
+        <label>E-mail</label>
+        <input type="email" id="auth-email" placeholder="seu@email.com" autocomplete="email">
       </div>
-      <div class="auth-subtitle">Controle de Coleção de Cartas</div>
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchAuthTab('login')">Entrar</button>
-        <button class="auth-tab" onclick="switchAuthTab('register')">Cadastrar</button>
+      <div>
+        <label>Senha</label>
+        <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
       </div>
-      <div class="auth-form">
-        <div>
-          <label>E-mail</label>
-          <input type="email" id="auth-email" placeholder="seu@email.com" autocomplete="email">
-        </div>
-        <div>
-          <label>Senha</label>
-          <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
-        </div>
-        <div id="auth-confirm-group" style="display:none;">
-          <label>Confirmar Senha</label>
-          <input type="password" id="auth-confirm" placeholder="Repita a senha">
-        </div>
-        <div id="auth-error" class="auth-error"></div>
-        <button class="auth-btn" id="auth-btn" onclick="handleAuth()">Entrar</button>
+      <div id="auth-confirm-group" style="display:none;">
+        <label>Confirmar Senha</label>
+        <input type="password" id="auth-confirm" placeholder="Repita a senha">
       </div>
+      <div id="auth-error" class="auth-error"></div>
+      <button class="auth-btn" id="auth-btn" onclick="handleAuth()">Entrar</button>
     </div>
   </div>
 </div>
 
-
 <header>
-  <!-- Linha superior: e-mail + sair à direita -->
   <div class="header-top-bar">
-    <div class="user-info"><span class="user-email" id="user-email"></span><button class="btn-logout" onclick="logout()">Sair</button></div>
+    <div class="user-info">
+      <span class="user-email" id="user-email"></span>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
   </div>
-  <!-- Linha principal: logo à esquerda, botões à direita -->
   <input type="file" id="file-sets-import" accept=".json" style="display:none" onchange="importSetsJSON(this)">
   <div class="header-main">
     <div class="header-left">
       <div class="logo"><svg viewBox="4 0 338 58" xmlns="http://www.w3.org/2000/svg" aria-label="PokeVault">
-  <defs>
-    <clipPath id="pb-circle"><circle cx="20" cy="20" r="20"/></clipPath>
-  </defs>
-  <!-- P centered layout: total content ~470px wide, starting at x=4 -->
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="4" y="52">P</text>
-  <g transform="translate(37,12)">
-    <circle cx="20" cy="20" r="20" fill="#21537a"/>
-    <path d="M 0,20 A 20,20 0 0 1 40,20 Z" fill="#d42726"/>
-    <path d="M 40,20 A 20,20 0 0 1 0,20 Z" fill="#f8f8f8"/>
-    <rect x="0" y="17" width="40" height="6" fill="#1a1a1a"/>
-    <circle cx="20" cy="20" r="20" fill="none" stroke="#21537a" stroke-width="3"/>
-    <circle cx="20" cy="20" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
-    <circle cx="20" cy="20" r="3.8" fill="#d42726" stroke="#1a1a1a" stroke-width="1"/>
-  </g>
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="81" y="52">KE</text>
-  <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#42545f" x="170" y="52">VAULT</text>
-</svg></div>
+        <defs><clipPath id="pb-circle2"><circle cx="20" cy="20" r="20"/></clipPath></defs>
+        <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="4" y="52">P</text>
+        <g transform="translate(37,12)">
+          <circle cx="20" cy="20" r="20" fill="#21537a"/>
+          <path d="M 0,20 A 20,20 0 0 1 40,20 Z" fill="#d42726"/>
+          <path d="M 40,20 A 20,20 0 0 1 0,20 Z" fill="#f8f8f8"/>
+          <rect x="0" y="17" width="40" height="6" fill="#1a1a1a"/>
+          <circle cx="20" cy="20" r="20" fill="none" stroke="#21537a" stroke-width="3"/>
+          <circle cx="20" cy="20" r="8" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+          <circle cx="20" cy="20" r="3.8" fill="#d42726" stroke="#1a1a1a" stroke-width="1"/>
+        </g>
+        <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#2d5680" x="81" y="52">KE</text>
+        <text font-family="'Arial Black','Arial',sans-serif" font-size="48" font-weight="900" fill="#42545f" x="170" y="52">VAULT</text>
+      </svg></div>
       <div class="tagline">Controle de Coleção de Cartas</div>
     </div>
     <div class="header-right">
       <div id="sets-status" style="font-size:0.72rem;color:var(--muted);line-height:1.4;white-space:nowrap;text-align:right;"></div>
       <div class="header-btn-grid">
         <div class="header-top-btns">
-          <a class="btn btn-secondary" href="https://api.pokemontcg.io/v2/sets?pageSize=250&orderBy=releaseDate" target="_blank" rel="noopener" title="Abre a API no navegador — salve o JSON e importe abaixo">&#127758; Baixar JSON da API</a>
-          <button class="btn btn-secondary" id="btn-sync-sets" onclick="document.getElementById('file-sets-import').click()" title="Importar sets de um arquivo JSON">&#128229; Importar Sets</button>
-          <button class="btn btn-secondary" onclick="exportSetsJSON()" title="Exportar lista de sets atual como JSON">&#128228; Exportar Sets</button>
+          <a class="btn btn-secondary" href="https://api.pokemontcg.io/v2/sets?pageSize=250&orderBy=releaseDate" target="_blank" rel="noopener">&#127758; Baixar JSON da API</a>
+          <button class="btn btn-secondary" onclick="document.getElementById('file-sets-import').click()">&#128229; Importar Sets</button>
+          <button class="btn btn-secondary" onclick="exportSetsJSON()">&#128228; Exportar Sets</button>
           <button class="btn btn-secondary" onclick="exportCSV()">⬇ Exportar CSV</button>
         </div>
         <button class="btn btn-primary btn-full" onclick="openModal()">＋ Nova Carta</button>
@@ -769,7 +630,6 @@
 </header>
 
 <main>
-  <!-- SUMMARY -->
   <div class="summary-grid">
     <div class="summary-card yellow">
       <div class="summary-label">Total de Cartas</div>
@@ -798,7 +658,6 @@
     </div>
   </div>
 
-  <!-- FILTERS -->
   <div class="panel">
     <div class="panel-header" onclick="togglePanel(this)">
       <span class="panel-title">🔍 Filtros</span>
@@ -807,31 +666,20 @@
     <div class="panel-body">
       <div class="filters-row">
         <input type="text" id="filter-nome" placeholder="Buscar por nome..." oninput="renderTable()">
-        <select id="filter-raridade" onchange="renderTable()">
-          <option value="">Todas as raridades</option>
-        </select>
-        <select id="filter-foil" onchange="renderTable()">
-          <option value="">Todos os foils</option>
-        </select>
-        <select id="filter-colecao" onchange="renderTable()">
-          <option value="">Todas as coleções</option>
-        </select>
-        <select id="filter-estado" onchange="renderTable()">
-          <option value="">Todos os estados</option>
-        </select>
-        <select id="filter-idioma" onchange="renderTable()">
-          <option value="">Todos os idiomas</option>
-        </select>
+        <select id="filter-raridade" onchange="renderTable()"><option value="">Todas as raridades</option></select>
+        <select id="filter-foil" onchange="renderTable()"><option value="">Todos os foils</option></select>
+        <select id="filter-colecao" onchange="renderTable()"><option value="">Todas as coleções</option></select>
+        <select id="filter-estado" onchange="renderTable()"><option value="">Todos os estados</option></select>
+        <select id="filter-idioma" onchange="renderTable()"><option value="">Todos os idiomas</option></select>
         <button class="btn btn-secondary btn-sm" onclick="clearFilters()">✕ Limpar</button>
       </div>
     </div>
   </div>
 
-  <!-- TABLE -->
   <div class="panel">
     <div class="panel-header" style="cursor:default;">
       <span class="panel-title">📦 Coleção</span>
-      <span style="font-size:0.8rem; color:var(--muted);" id="count-label">0 cartas</span>
+      <span style="font-size:0.8rem;color:var(--muted);" id="count-label">0 cartas</span>
     </div>
     <div class="panel-body" style="padding:0;">
       <div class="table-wrapper">
@@ -863,11 +711,9 @@
   </div>
 </main>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-title" id="modal-title">✦ Nova Carta</div>
-
     <div class="section-title">Identificação</div>
     <div class="form-grid">
       <div class="form-group wide">
@@ -883,7 +729,6 @@
         <input type="number" id="f-quantidade" min="1" value="1">
       </div>
     </div>
-
     <div class="section-title">Classificação</div>
     <div class="form-grid">
       <div class="form-group">
@@ -899,8 +744,7 @@
         <div style="position:relative;">
           <input type="text" id="f-colecao-search" placeholder="Buscar coleção..." oninput="searchColecao(this.value)" onfocus="showColecaoDropdown()" autocomplete="off" style="padding-right:32px;">
           <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:0.8rem;">▼</span>
-          <div id="f-colecao-dropdown" style="display:none;position:absolute;z-index:500;width:100%;max-height:320px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
-          </div>
+          <div id="f-colecao-dropdown" style="display:none;position:absolute;z-index:500;width:100%;max-height:320px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,0.4);"></div>
         </div>
         <input type="hidden" id="f-colecao">
       </div>
@@ -913,7 +757,6 @@
         <select id="f-idioma"></select>
       </div>
     </div>
-
     <div class="section-title">Valores Financeiros</div>
     <div class="form-grid">
       <div class="form-group">
@@ -929,7 +772,6 @@
         <input type="number" id="f-venda" step="0.01" min="0" placeholder="0,00">
       </div>
     </div>
-
     <div class="section-title">Datas</div>
     <div class="form-grid">
       <div class="form-group">
@@ -941,7 +783,6 @@
         <input type="date" id="f-dataVenda">
       </div>
     </div>
-
     <div class="form-actions">
       <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
       <button class="btn btn-primary" onclick="saveCard()">💾 Salvar Carta</button>
@@ -987,93 +828,77 @@ const ESTADOS = [
 
 const IDIOMAS = ['Português', 'Inglês', 'Espanhol', 'Japonês', 'Coreano', 'Francês', 'Alemão', 'Italiano', 'Chinês'];
 
-// ─── SETS (dinâmico via PokéTCG API) ────────────────────────────────
+// ─── SETS ────────────────────────────────────────────────────────────
 const POKETCG_API = 'https://api.pokemontcg.io/v2/sets';
 const SETS_CACHE_KEY = 'pokevault_sets_cache_v2';
 const MERCADO_DATE_KEY = 'pokevault_mercado_updated';
-const SETS_CACHE_TTL = 24 * 60 * 60 * 1000; // 24h em ms
-
-// Opcional: cadastre-se em https://dev.pokemontcg.io para obter uma chave
-// e ter limites de requisição maiores. Deixe vazio para usar sem chave.
+const SETS_CACHE_TTL = 24 * 60 * 60 * 1000;
 const POKETCG_API_KEY = '';
+let SETS_DATA = {};
 
-let SETS_DATA = {}; // preenchido dinamicamente
-
-// Fallback completo caso a API esteja indisponível e não haja cache
 const SETS_FALLBACK = {
   'Wizards of the Coast': [
-    '1999 - Base Set (BS)', '1999 - Jungle (JU)', '1999 - Fossil (FO)',
-    '2000 - Base Set 2 (B2)', '2000 - Team Rocket (TR)', '2000 - Gym Heroes (G1)', '2000 - Gym Challenge (G2)',
-    '2001 - Neo Genesis (N1)', '2001 - Neo Discovery (N2)', '2001 - Southern Islands (SI)', '2001 - Neo Revelation (N3)',
-    '2002 - Neo Destiny (N4)', '2002 - Legendary Collection (LC)', '2002 - Expedition Base Set (EX)', '2002 - Aquapolis (AQ)',
+    '1999 - Base Set (BS)','1999 - Jungle (JU)','1999 - Fossil (FO)',
+    '2000 - Base Set 2 (B2)','2000 - Team Rocket (TR)','2000 - Gym Heroes (G1)','2000 - Gym Challenge (G2)',
+    '2001 - Neo Genesis (N1)','2001 - Neo Discovery (N2)','2001 - Southern Islands (SI)','2001 - Neo Revelation (N3)',
+    '2002 - Neo Destiny (N4)','2002 - Legendary Collection (LC)','2002 - Expedition Base Set (EX)','2002 - Aquapolis (AQ)',
     '2003 - Skyridge (SK)',
   ],
   'EX Series': [
-    '2003 - EX Ruby & Sapphire (RS)', '2003 - EX Sandstorm (SS)', '2003 - EX Dragon (DR)',
-    '2004 - EX Team Magma vs Team Aqua (MA)', '2004 - EX Hidden Legends (HL)', '2004 - EX FireRed & LeafGreen (FL)', '2004 - EX Team Rocket Returns (RR)',
-    '2005 - EX Deoxys (DX)', '2005 - EX Emerald (EM)', '2005 - EX Unseen Forces (UF)', '2005 - EX Delta Species (DS)',
-    '2006 - EX Legend Maker (LM)', '2006 - EX Holon Phantoms (HP)', '2006 - EX Crystal Guardians (CG)', '2006 - EX Dragon Frontiers (DF)',
+    '2003 - EX Ruby & Sapphire (RS)','2003 - EX Sandstorm (SS)','2003 - EX Dragon (DR)',
+    '2004 - EX Team Magma vs Team Aqua (MA)','2004 - EX Hidden Legends (HL)','2004 - EX FireRed & LeafGreen (FL)','2004 - EX Team Rocket Returns (RR)',
+    '2005 - EX Deoxys (DX)','2005 - EX Emerald (EM)','2005 - EX Unseen Forces (UF)','2005 - EX Delta Species (DS)',
+    '2006 - EX Legend Maker (LM)','2006 - EX Holon Phantoms (HP)','2006 - EX Crystal Guardians (CG)','2006 - EX Dragon Frontiers (DF)',
     '2007 - EX Power Keepers (PK)',
   ],
   'Diamond & Pearl': [
-    '2007 - Diamond & Pearl (DP)', '2007 - Mysterious Treasures (MT)', '2007 - Secret Wonders (SW)',
-    '2008 - Great Encounters (GE)', '2008 - Majestic Dawn (MD)', '2008 - Legends Awakened (LA)', '2008 - Stormfront (SF)',
+    '2007 - Diamond & Pearl (DP)','2007 - Mysterious Treasures (MT)','2007 - Secret Wonders (SW)',
+    '2008 - Great Encounters (GE)','2008 - Majestic Dawn (MD)','2008 - Legends Awakened (LA)','2008 - Stormfront (SF)',
   ],
-  'Platinum': [
-    '2009 - Platinum (PL)', '2009 - Rising Rivals (RR)', '2009 - Supreme Victors (SV)', '2009 - Arceus (AR)',
-  ],
+  'Platinum': ['2009 - Platinum (PL)','2009 - Rising Rivals (RR)','2009 - Supreme Victors (SV)','2009 - Arceus (AR)'],
   'HeartGold & SoulSilver': [
-    '2010 - HeartGold & SoulSilver (HS)', '2010 - Unleashed (UL)', '2010 - Undaunted (UD)', '2010 - Triumphant (TM)',
+    '2010 - HeartGold & SoulSilver (HS)','2010 - Unleashed (UL)','2010 - Undaunted (UD)','2010 - Triumphant (TM)',
     '2011 - Call of Legends (CL)',
   ],
   'Black & White': [
-    '2011 - Black & White (BW)', '2011 - Emerging Powers (EP)', '2011 - Noble Victories (NV)',
-    '2012 - Next Destinies (NXD)', '2012 - Dark Explorers (DEX)', '2012 - Dragons Exalted (DRX)', '2012 - Dragon Vault (DV)', '2012 - Boundaries Crossed (BCR)',
-    '2013 - Plasma Storm (PLS)', '2013 - Plasma Freeze (PLF)', '2013 - Plasma Blast (PLB)', '2013 - Legendary Treasures (LTR)',
+    '2011 - Black & White (BW)','2011 - Emerging Powers (EP)','2011 - Noble Victories (NV)',
+    '2012 - Next Destinies (NXD)','2012 - Dark Explorers (DEX)','2012 - Dragons Exalted (DRX)','2012 - Dragon Vault (DV)','2012 - Boundaries Crossed (BCR)',
+    '2013 - Plasma Storm (PLS)','2013 - Plasma Freeze (PLF)','2013 - Plasma Blast (PLB)','2013 - Legendary Treasures (LTR)',
   ],
   'XY': [
-    '2014 - XY Base Set (XY)', '2014 - Flashfire (FLF)', '2014 - Furious Fists (FFI)', '2014 - Phantom Forces (PHF)',
-    '2015 - Primal Clash (PRC)', '2015 - Roaring Skies (ROS)', '2015 - Ancient Origins (AOR)', '2015 - BREAKthrough (BKT)',
-    '2016 - BREAKpoint (BKP)', '2016 - Generations (GEN)', '2016 - Fates Collide (FCO)', '2016 - Steam Siege (STS)', '2016 - Evolutions (EVO)',
+    '2014 - XY Base Set (XY)','2014 - Flashfire (FLF)','2014 - Furious Fists (FFI)','2014 - Phantom Forces (PHF)',
+    '2015 - Primal Clash (PRC)','2015 - Roaring Skies (ROS)','2015 - Ancient Origins (AOR)','2015 - BREAKthrough (BKT)',
+    '2016 - BREAKpoint (BKP)','2016 - Generations (GEN)','2016 - Fates Collide (FCO)','2016 - Steam Siege (STS)','2016 - Evolutions (EVO)',
   ],
   'Sun & Moon': [
-    '2017 - Sun & Moon (SM)', '2017 - Guardians Rising (GRI)', '2017 - Burning Shadows (BUS)', '2017 - Shining Legends (SLG)',
-    '2018 - Crimson Invasion (CIN)', '2018 - Ultra Prism (UPR)', '2018 - Forbidden Light (FLI)', '2018 - Celestial Storm (CES)',
-    '2018 - Dragon Majesty (DRM)', '2018 - Lost Thunder (LOT)',
-    '2019 - Team Up (TEU)', '2019 - Unbroken Bonds (UNB)', '2019 - Unified Minds (UNM)', '2019 - Hidden Fates (HIF)', '2019 - Cosmic Eclipse (CEC)',
+    '2017 - Sun & Moon (SM)','2017 - Guardians Rising (GRI)','2017 - Burning Shadows (BUS)','2017 - Shining Legends (SLG)',
+    '2018 - Crimson Invasion (CIN)','2018 - Ultra Prism (UPR)','2018 - Forbidden Light (FLI)','2018 - Celestial Storm (CES)',
+    '2018 - Dragon Majesty (DRM)','2018 - Lost Thunder (LOT)',
+    '2019 - Team Up (TEU)','2019 - Unbroken Bonds (UNB)','2019 - Unified Minds (UNM)','2019 - Hidden Fates (HIF)','2019 - Cosmic Eclipse (CEC)',
   ],
   'Sword & Shield': [
-    '2020 - Sword & Shield (SWSH)', '2020 - Rebel Clash (RCL)', '2020 - Darkness Ablaze (DAA)', '2020 - Champions Path (CPA)', '2020 - Vivid Voltage (VIV)',
-    '2021 - Shining Fates (SHF)', '2021 - Battle Styles (BST)', '2021 - Chilling Reign (CRE)', '2021 - Evolving Skies (EVS)', '2021 - Celebrations (CEL)', '2021 - Fusion Strike (FST)',
-    '2022 - Brilliant Stars (BRS)', '2022 - Astral Radiance (ASR)', '2022 - Pokémon GO (PGO)', '2022 - Lost Origin (LOR)', '2022 - Silver Tempest (SIT)', '2022 - Crown Zenith (CRZ)',
+    '2020 - Sword & Shield (SWSH)','2020 - Rebel Clash (RCL)','2020 - Darkness Ablaze (DAA)','2020 - Champions Path (CPA)','2020 - Vivid Voltage (VIV)',
+    '2021 - Shining Fates (SHF)','2021 - Battle Styles (BST)','2021 - Chilling Reign (CRE)','2021 - Evolving Skies (EVS)','2021 - Celebrations (CEL)','2021 - Fusion Strike (FST)',
+    '2022 - Brilliant Stars (BRS)','2022 - Astral Radiance (ASR)','2022 - Pokémon GO (PGO)','2022 - Lost Origin (LOR)','2022 - Silver Tempest (SIT)','2022 - Crown Zenith (CRZ)',
   ],
   'Scarlet & Violet': [
-    '2023 - Scarlet & Violet (SVI)', '2023 - Paldea Evolved (PAL)', '2023 - Obsidian Flames (OBF)', '2023 - Pokémon Card 151 (MEW)', '2023 - Paradox Rift (PAR)',
-    '2024 - Paldean Fates (PAF)', '2024 - Temporal Forces (TEF)', '2024 - Twilight Masquerade (TWM)', '2024 - Shrouded Fable (SFA)',
-    '2024 - Stellar Crown (SCR)', '2024 - Surging Sparks (SSP)',
-    '2025 - Prismatic Evolutions (PRE)', '2025 - Journey Together (JTG)', '2025 - Destined Rivals (DRI)',
-    '2025 - Mega Evolution (MEV)', '2025 - Phantasmal Flames (PHF)',
-    '2025 - Black Bolt (BLB)', '2025 - White Flare (WLF)',
-    '2026 - Ascended Heroes (ASH)', '2026 - Perfect Order (POR)',
-  ],
-  'Mega Evolution Series': [
-    '2025 - Mega Evolution (MEV)',
+    '2023 - Scarlet & Violet (SVI)','2023 - Paldea Evolved (PAL)','2023 - Obsidian Flames (OBF)','2023 - Pokémon Card 151 (MEW)','2023 - Paradox Rift (PAR)',
+    '2024 - Paldean Fates (PAF)','2024 - Temporal Forces (TEF)','2024 - Twilight Masquerade (TWM)','2024 - Shrouded Fable (SFA)',
+    '2024 - Stellar Crown (SCR)','2024 - Surging Sparks (SSP)',
+    '2025 - Prismatic Evolutions (PRE)','2025 - Journey Together (JTG)','2025 - Destined Rivals (DRI)',
+    '2025 - Black Bolt (BLB)','2025 - White Flare (WLF)',
+    '2026 - Ascended Heroes (ASH)','2026 - Perfect Order (POR)',
   ],
   'Promos & Especiais': [
-    'WOTC Black Star Promos', 'Nintendo Black Star Promos', 'POP Series',
-    "McDonald's Promos (2017)", "McDonald's Promos (2018)", "McDonald's Promos (2019)",
-    "McDonald's Promos (2021)", "McDonald's Promos (2022)", "McDonald's Promos (2023)",
-    "McDonald's Promos (2024)", "McDonald's Promos (2025)",
-    'Trainer Kit', 'Shining Legends (SLG)', 'Dragon Majesty (DRM)',
-    'Hidden Fates (HIF)', "Champions Path (CPA)", 'Shining Fates (SHF)',
-    'Celebrations (CEL)', 'Pokémon GO (PGO)', 'Crown Zenith (CRZ)',
-    'Paldean Fates (PAF)', 'Prismatic Evolutions (PRE)',
-    'Outros Promos',
+    'WOTC Black Star Promos','Nintendo Black Star Promos','POP Series',
+    "McDonald's Promos (2021)","McDonald's Promos (2022)","McDonald's Promos (2023)",
+    "McDonald's Promos (2024)","McDonald's Promos (2025)",
+    'Trainer Kit','Celebrations (CEL)','Pokémon GO (PGO)','Crown Zenith (CRZ)',
+    'Paldean Fates (PAF)','Prismatic Evolutions (PRE)','Outros Promos',
   ],
 };
 
 function parseSetsFromJSON(data) {
-  // Aceita tanto o formato da API pokemontcg.io quanto o formato interno { Serie: [colecoes] }
   if (Array.isArray(data)) {
     const grouped = {};
     data.forEach(s => {
@@ -1086,13 +911,10 @@ function parseSetsFromJSON(data) {
     });
     const sorted = {};
     Object.keys(grouped).sort().forEach(series => {
-      sorted[series] = grouped[series]
-        .sort((a, b) => a.releaseDate.localeCompare(b.releaseDate))
-        .map(x => x.label);
+      sorted[series] = grouped[series].sort((a, b) => a.releaseDate.localeCompare(b.releaseDate)).map(x => x.label);
     });
     return sorted;
   }
-  // Formato interno: objeto { Serie: [colecoes] }
   if (typeof data === 'object' && !Array.isArray(data)) return data;
   throw new Error('Formato de JSON inválido');
 }
@@ -1104,7 +926,6 @@ function importSetsJSON(input) {
   reader.onload = e => {
     try {
       const raw = JSON.parse(e.target.result);
-      // Suporta { data: [...] } (resposta direta da API) ou o array/objeto direto
       const payload = raw.data || raw;
       const parsed = parseSetsFromJSON(payload);
       const total = Object.values(parsed).flat().length;
@@ -1113,8 +934,7 @@ function importSetsJSON(input) {
       localStorage.setItem(SETS_CACHE_KEY, JSON.stringify({ data: SETS_DATA, ts: Date.now() }));
       rebuildSetSelects();
       const series = Object.keys(SETS_DATA).length;
-      document.getElementById('sets-status').innerHTML =
-        `Sets: <span style="color:var(--green)">✓ ${total} sets importados</span><br>${series} séries`;
+      document.getElementById('sets-status').innerHTML = `Sets: <span style="color:var(--green)">✓ ${total} sets importados</span><br>${series} séries`;
       showToast(`✅ ${total} sets de ${series} séries importados!`);
     } catch(err) {
       showToast(`Erro ao importar: ${err.message}`, 'error');
@@ -1135,7 +955,6 @@ function exportSetsJSON() {
 }
 
 function initSets() {
-  // Tenta carregar do cache salvo
   try {
     const cached = localStorage.getItem(SETS_CACHE_KEY);
     if (cached) {
@@ -1151,7 +970,6 @@ function initSets() {
       }
     }
   } catch(e) {}
-  // Sem cache: usa o fallback embutido
   SETS_DATA = SETS_FALLBACK;
   rebuildSetSelects();
   const total = Object.values(SETS_DATA).flat().length;
@@ -1160,7 +978,6 @@ function initSets() {
 }
 
 function rebuildSetSelects() {
-  // Reconstruir filtro de coleção com todas as coleções
   const fc = document.getElementById('filter-colecao');
   if (fc) {
     const filterColVal = fc.value;
@@ -1181,17 +998,13 @@ function filterSetChanged() {
 }
 
 // ─── SUPABASE CONFIG ─────────────────────────────────────────────────
-// ⚠️ Substitua pelos seus valores do painel Supabase (Settings → API)
 const SUPABASE_URL = 'https://ualxqhrdkkxckvyeyhmn.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_2BeGeIYXA1ZfGqAfy7aWig_6tzWxgSk';
 const TABLE = 'cartas';
 
-// ─── AUTH STATE ──────────────────────────────────────────────────────
 let currentSession = null;
 
-function getAuthToken() {
-  return currentSession?.access_token || SUPABASE_KEY;
-}
+function getAuthToken() { return currentSession?.access_token || SUPABASE_KEY; }
 
 async function sbFetch(path, options = {}) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
@@ -1215,10 +1028,7 @@ async function sbFetch(path, options = {}) {
 async function authFetch(endpoint, body) {
   const res = await fetch(`${SUPABASE_URL}/auth/v1/${endpoint}`, {
     method: 'POST',
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Content-Type': 'application/json',
-    },
+    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
   const data = await res.json();
@@ -1250,18 +1060,14 @@ async function handleAuth() {
   const password = document.getElementById('auth-password').value;
   const confirm = document.getElementById('auth-confirm').value;
   const btn = document.getElementById('auth-btn');
-
   document.getElementById('auth-error').classList.remove('visible');
-
   if (!email || !password) { showAuthError('Preencha e-mail e senha.'); return; }
   if (authMode === 'register') {
     if (password.length < 6) { showAuthError('A senha deve ter pelo menos 6 caracteres.'); return; }
     if (password !== confirm) { showAuthError('As senhas não coincidem.'); return; }
   }
-
   btn.disabled = true;
   btn.textContent = '⏳ Aguarde...';
-
   try {
     let data;
     if (authMode === 'login') {
@@ -1287,16 +1093,13 @@ async function handleAuth() {
 function onLoginSuccess(email) {
   document.getElementById('auth-screen').classList.remove('visible');
   document.getElementById('user-email').textContent = email;
-  // Salva sessão no sessionStorage para manter login na aba
   sessionStorage.setItem('pokevault_session', JSON.stringify(currentSession));
   init();
 }
 
 async function logout() {
   if (!confirm('Deseja sair da sua conta?')) return;
-  try {
-    await authFetch('logout', {});
-  } catch(e) {}
+  try { await authFetch('logout', {}); } catch(e) {}
   currentSession = null;
   sessionStorage.removeItem('pokevault_session');
   cards = [];
@@ -1308,7 +1111,6 @@ async function logout() {
   document.getElementById('auth-password').value = '';
 }
 
-// Tenta restaurar sessão ao carregar
 function tryRestoreSession() {
   try {
     const saved = sessionStorage.getItem('pokevault_session');
@@ -1324,7 +1126,6 @@ function tryRestoreSession() {
   return false;
 }
 
-// Enter key no formulário de auth
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && document.getElementById('auth-screen').classList.contains('visible')) {
     handleAuth();
@@ -1337,66 +1138,30 @@ let editingId = null;
 let sortField = 'nome';
 let sortAsc = true;
 
-// ─── INIT ─────────────────────────────────────────────────────────────
-async function init() {
-  await loadCards();
-}
+async function init() { await loadCards(); }
 
 function populateSelects() {
-  // Raridade
   const fRar = document.getElementById('f-raridade');
-  RARIDADES.forEach(r => {
-    fRar.innerHTML += `<option value="${r.value}">${r.label}</option>`;
-  });
-
-  // Foil
+  RARIDADES.forEach(r => { fRar.innerHTML += `<option value="${r.value}">${r.label}</option>`; });
   const fFoil = document.getElementById('f-foil');
-  FOILS.forEach(f => {
-    fFoil.innerHTML += `<option value="${f.value}">${f.label}</option>`;
-  });
-
-  // Coleções carregadas por initSets() → rebuildSetSelects
+  FOILS.forEach(f => { fFoil.innerHTML += `<option value="${f.value}">${f.label}</option>`; });
   if (Object.keys(SETS_DATA).length === 0) initSets();
   else rebuildSetSelects();
-
-  // Estado
   const fEst = document.getElementById('f-estado');
-  ESTADOS.forEach(e => {
-    fEst.innerHTML += `<option value="${e.value}">${e.label}</option>`;
-  });
-
-  // Idioma
+  ESTADOS.forEach(e => { fEst.innerHTML += `<option value="${e.value}">${e.label}</option>`; });
   const fIdi = document.getElementById('f-idioma');
-  IDIOMAS.forEach(i => {
-    fIdi.innerHTML += `<option value="${i}">${i}</option>`;
-  });
-}
-
-function updateColecaoSelect() {
-  // Limpa a busca e redefine o valor oculto
-  const searchInput = document.getElementById('f-colecao-search');
-  if (searchInput) {
-    searchInput.value = '';
-    document.getElementById('f-colecao').value = '';
-    document.getElementById('f-colecao-dropdown').style.display = 'none';
-  }
+  IDIOMAS.forEach(i => { fIdi.innerHTML += `<option value="${i}">${i}</option>`; });
 }
 
 function getColecaoOptions(query) {
-  // Garante que SETS_DATA está carregado
   if (Object.keys(SETS_DATA).length === 0) initSets();
-
   if (!query) {
-    return Object.entries(SETS_DATA).flatMap(([serie, cols]) =>
-      cols.map(c => ({ label: c, serie }))
-    );
+    return Object.entries(SETS_DATA).flatMap(([serie, cols]) => cols.map(c => ({ label: c, serie })));
   }
   const q = query.toLowerCase();
   const results = [];
   Object.entries(SETS_DATA).forEach(([serie, cols]) => {
-    cols.forEach(c => {
-      if (c.toLowerCase().includes(q)) results.push({ label: c, serie });
-    });
+    cols.forEach(c => { if (c.toLowerCase().includes(q)) results.push({ label: c, serie }); });
   });
   return results;
 }
@@ -1410,12 +1175,11 @@ function getSerie(colecao) {
 
 function renderColecaoDropdown(items) {
   const dropdown = document.getElementById('f-colecao-dropdown');
-
   if (items.length === 0) {
     dropdown.innerHTML = '<div class="colecao-empty">Nenhuma coleção encontrada</div>';
   } else {
     dropdown.innerHTML = items.map(item => `
-      <div class="colecao-option" onmousedown="selectColecao('${item.label.replace(/'/g,"\'")}')">
+      <div class="colecao-option" onmousedown="selectColecao('${item.label.replace(/'/g,"\\'")}')">
         <div>${item.label}</div>
         <div class="colecao-serie">${item.serie}</div>
       </div>`).join('');
@@ -1423,15 +1187,11 @@ function renderColecaoDropdown(items) {
   dropdown.style.display = 'block';
 }
 
-function searchColecao(query) {
-  const items = getColecaoOptions(query);
-  renderColecaoDropdown(items);
-}
+function searchColecao(query) { renderColecaoDropdown(getColecaoOptions(query)); }
 
 function showColecaoDropdown() {
   const query = document.getElementById('f-colecao-search').value;
   const items = getColecaoOptions(query);
-  // Se SETS_DATA ainda vazio, tenta inicializar
   if (items.length === 0 && Object.keys(SETS_DATA).length === 0) {
     initSets();
     renderColecaoDropdown(getColecaoOptions(query));
@@ -1446,7 +1206,6 @@ function selectColecao(value) {
   document.getElementById('f-colecao-dropdown').style.display = 'none';
 }
 
-// Fecha dropdown ao clicar fora
 document.addEventListener('click', function(e) {
   const wrapper = document.getElementById('f-colecao-search');
   const dropdown = document.getElementById('f-colecao-dropdown');
@@ -1465,15 +1224,10 @@ function populateFilters() {
     const sel = document.getElementById(id);
     data.forEach(d => sel.innerHTML += `<option value="${d[valKey]}">${d[labelKey]}</option>`);
   });
-
   const fIdi = document.getElementById('filter-idioma');
   IDIOMAS.forEach(i => fIdi.innerHTML += `<option value="${i}">${i}</option>`);
-
-  // Sets e coleções populados por initSets() via rebuildSetSelects
   filterSetChanged();
 }
-
-function filterSet() { filterSetChanged(); }
 
 // ─── LOAD CARDS ───────────────────────────────────────────────────────
 async function loadCards() {
@@ -1531,29 +1285,43 @@ function cardToDb(card) {
   };
 }
 
+// ─── CHAVE DE DUPLICATA ───────────────────────────────────────────────
+// Duas cartas são "iguais" se todos esses campos coincidirem
+function cardDuplicateKey(card) {
+  return [
+    card.nome.toLowerCase().trim(),
+    card.codigo.toLowerCase().trim(),
+    card.raridade,
+    card.foil,
+    card.colecao,
+    card.estado,
+    card.idioma,
+  ].join('||');
+}
+
 // ─── SAVE / EDIT / DELETE ─────────────────────────────────────────────
 async function saveCard() {
   const nome = document.getElementById('f-nome').value.trim();
   if (!nome) { alert('Nome da carta é obrigatório!'); return; }
-  const qtd = parseInt(document.getElementById('f-quantidade').value) || 1;
-  const custo = parseFloat(document.getElementById('f-custo').value) || 0;
+  const qtd     = parseInt(document.getElementById('f-quantidade').value) || 1;
+  const custo   = parseFloat(document.getElementById('f-custo').value)   || 0;
   const mercado = parseFloat(document.getElementById('f-mercado').value) || 0;
   const mercadoAnterior = editingId ? (cards.find(c => c.id === editingId)?.mercado || 0) : 0;
-  const venda = parseFloat(document.getElementById('f-venda').value) || 0;
+  const venda   = parseFloat(document.getElementById('f-venda').value)   || 0;
 
   const card = {
     nome,
-    codigo: document.getElementById('f-codigo').value.trim(),
-    raridade: document.getElementById('f-raridade').value,
-    foil: document.getElementById('f-foil').value,
-    set: getSerie(document.getElementById('f-colecao').value),
-    colecao: document.getElementById('f-colecao').value,
-    estado: document.getElementById('f-estado').value,
-    idioma: document.getElementById('f-idioma').value,
+    codigo:    document.getElementById('f-codigo').value.trim(),
+    raridade:  document.getElementById('f-raridade').value,
+    foil:      document.getElementById('f-foil').value,
+    set:       getSerie(document.getElementById('f-colecao').value),
+    colecao:   document.getElementById('f-colecao').value,
+    estado:    document.getElementById('f-estado').value,
+    idioma:    document.getElementById('f-idioma').value,
     quantidade: qtd,
     custo, mercado, venda,
     dataCompra: document.getElementById('f-dataCompra').value,
-    dataVenda: document.getElementById('f-dataVenda').value,
+    dataVenda:  document.getElementById('f-dataVenda').value,
   };
 
   const saveBtn = document.querySelector('#modal .btn-primary');
@@ -1562,6 +1330,7 @@ async function saveCard() {
 
   try {
     if (editingId) {
+      // ── EDIÇÃO: atualiza normalmente ──────────────────────────────
       await sbFetch(`${TABLE}?id=eq.${editingId}`, {
         method: 'PATCH',
         prefer: 'return=representation',
@@ -1569,14 +1338,39 @@ async function saveCard() {
       });
       showToast('✅ Carta atualizada!');
     } else {
-      await sbFetch(`${TABLE}`, {
-        method: 'POST',
-        prefer: 'return=representation',
-        body: JSON.stringify(cardToDb(card)),
-      });
-      showToast('✅ Carta adicionada!');
+      // ── NOVA CARTA: verifica se já existe carta idêntica ──────────
+      const newKey = cardDuplicateKey(card);
+      const existing = cards.find(c => cardDuplicateKey(c) === newKey);
+
+      if (existing) {
+        // Agrupa: incrementa quantidade e recalcula médias ponderadas
+        const novaQtd     = existing.quantidade + qtd;
+        const novoCusto   = ((existing.custo   * existing.quantidade) + (custo   * qtd)) / novaQtd;
+        const novoMercado = ((existing.mercado * existing.quantidade) + (mercado * qtd)) / novaQtd;
+        const novaVenda   = Math.max(existing.venda, venda);
+
+        await sbFetch(`${TABLE}?id=eq.${existing.id}`, {
+          method: 'PATCH',
+          prefer: 'return=representation',
+          body: JSON.stringify({
+            quantidade: novaQtd,
+            custo:      parseFloat(novoCusto.toFixed(2)),
+            mercado:    parseFloat(novoMercado.toFixed(2)),
+            venda:      parseFloat(novaVenda.toFixed(2)),
+          }),
+        });
+        showToast(`✅ Quantidade atualizada! (${existing.quantidade} → ${novaQtd})`);
+      } else {
+        // Carta nova: insere normalmente
+        await sbFetch(`${TABLE}`, {
+          method: 'POST',
+          prefer: 'return=representation',
+          body: JSON.stringify(cardToDb(card)),
+        });
+        showToast('✅ Carta adicionada!');
+      }
     }
-    // Salva data de atualização do mercado se o valor mudou
+
     if (mercado !== mercadoAnterior || !editingId) {
       localStorage.setItem(MERCADO_DATE_KEY, new Date().toISOString());
     }
@@ -1591,13 +1385,47 @@ async function saveCard() {
 }
 
 async function deleteCard(id) {
-  if (!confirm('Remover esta carta da coleção?')) return;
-  try {
-    await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
-    showToast('🗑 Carta removida.');
-    await loadCards();
-  } catch(e) {
-    showToast('Erro ao remover: ' + e.message, 'error');
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+
+  if (card.quantidade > 1) {
+    // Pergunta quantas unidades remover
+    const input = prompt(
+      `"${card.nome}" tem ${card.quantidade} unidades.\nQuantas deseja remover? (1 a ${card.quantidade})`,
+      '1'
+    );
+    if (input === null) return;
+    const qtdRemover = parseInt(input);
+    if (isNaN(qtdRemover) || qtdRemover < 1 || qtdRemover > card.quantidade) {
+      alert(`Quantidade inválida. Digite um número entre 1 e ${card.quantidade}.`);
+      return;
+    }
+    const novaQtd = card.quantidade - qtdRemover;
+    try {
+      if (novaQtd === 0) {
+        await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+        showToast('🗑 Carta removida da coleção.');
+      } else {
+        await sbFetch(`${TABLE}?id=eq.${id}`, {
+          method: 'PATCH',
+          prefer: 'return=representation',
+          body: JSON.stringify({ quantidade: novaQtd }),
+        });
+        showToast(`🗑 ${qtdRemover} unidade(s) removida(s). Restam ${novaQtd}.`);
+      }
+      await loadCards();
+    } catch(e) {
+      showToast('Erro ao remover: ' + e.message, 'error');
+    }
+  } else {
+    if (!confirm(`Remover "${card.nome}" da coleção?`)) return;
+    try {
+      await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+      showToast('🗑 Carta removida.');
+      await loadCards();
+    } catch(e) {
+      showToast('Erro ao remover: ' + e.message, 'error');
+    }
   }
 }
 
@@ -1626,19 +1454,19 @@ function editCard(id) {
 // ─── RENDER TABLE ─────────────────────────────────────────────────────
 function getFilteredSorted() {
   const fNome = document.getElementById('filter-nome').value.toLowerCase();
-  const fRar = document.getElementById('filter-raridade').value;
+  const fRar  = document.getElementById('filter-raridade').value;
   const fFoil = document.getElementById('filter-foil').value;
-  const fCol = document.getElementById('filter-colecao').value;
-  const fEst = document.getElementById('filter-estado').value;
-  const fIdi = document.getElementById('filter-idioma').value;
+  const fCol  = document.getElementById('filter-colecao').value;
+  const fEst  = document.getElementById('filter-estado').value;
+  const fIdi  = document.getElementById('filter-idioma').value;
 
   let filtered = cards.filter(c => {
     if (fNome && !c.nome.toLowerCase().includes(fNome)) return false;
-    if (fRar && c.raridade !== fRar) return false;
-    if (fFoil && c.foil !== fFoil) return false;
-    if (fCol && c.colecao !== fCol) return false;
-    if (fEst && c.estado !== fEst) return false;
-    if (fIdi && c.idioma !== fIdi) return false;
+    if (fRar  && c.raridade !== fRar)  return false;
+    if (fFoil && c.foil !== fFoil)     return false;
+    if (fCol  && c.colecao !== fCol)   return false;
+    if (fEst  && c.estado !== fEst)    return false;
+    if (fIdi  && c.idioma !== fIdi)    return false;
     return true;
   });
 
@@ -1651,15 +1479,8 @@ function getFilteredSorted() {
   return filtered;
 }
 
-function getBadge(arr, value) {
-  const item = arr.find(x => x.value === value);
-  return item ? item.badge : '';
-}
-
-function getLabel(arr, value) {
-  const item = arr.find(x => x.value === value);
-  return item ? item.label : value;
-}
+function getBadge(arr, value) { const item = arr.find(x => x.value === value); return item ? item.badge : ''; }
+function getLabel(arr, value) { const item = arr.find(x => x.value === value); return item ? item.label : value; }
 
 function formatDate(d) {
   if (!d) return '—';
@@ -1667,9 +1488,7 @@ function formatDate(d) {
   return `${day}/${m}/${y}`;
 }
 
-function formatBRL(v) {
-  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
+function formatBRL(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
 function renderTable() {
   const data = getFilteredSorted();
@@ -1682,12 +1501,12 @@ function renderTable() {
   }
 
   tbody.innerHTML = data.map(c => {
-    const rarBadge = getBadge(RARIDADES, c.raridade);
-    const rarLabel = getLabel(RARIDADES, c.raridade).replace(/^.+?—?\s*/, '').replace(/\([^)]+\)/,'').trim();
+    const rarBadge  = getBadge(RARIDADES, c.raridade);
+    const rarLabel  = getLabel(RARIDADES, c.raridade).replace(/^.+?—?\s*/, '').replace(/\([^)]+\)/,'').trim();
     const foilBadge = getBadge(FOILS, c.foil);
     const foilLabel = getLabel(FOILS, c.foil);
-    const estBadge = getBadge(ESTADOS, c.estado);
-    const profit = (c.venda - c.custo) * c.quantidade;
+    const estBadge  = getBadge(ESTADOS, c.estado);
+    const profit    = (c.venda - c.custo) * c.quantidade;
     const profitClass = profit > 0 ? 'positive' : profit < 0 ? 'negative' : 'neutral';
 
     return `<tr>
@@ -1716,32 +1535,33 @@ function renderTable() {
 
 // ─── SUMMARY ──────────────────────────────────────────────────────────
 function updateSummary() {
-  const total = cards.reduce((s, c) => s + c.quantidade, 0);
-  const custoBruto = cards.reduce((s, c) => s + c.custo * c.quantidade, 0);
-  const mercadoTotal = cards.reduce((s, c) => s + c.mercado * c.quantidade, 0);
-  const vendaTotal = cards.reduce((s, c) => s + c.venda * c.quantidade, 0);
-  const lucro = vendaTotal - custoBruto;
-  const pct = custoBruto > 0 ? ((lucro / custoBruto) * 100).toFixed(1) : 0;
+  const total       = cards.reduce((s, c) => s + c.quantidade, 0);
+  const custoBruto  = cards.reduce((s, c) => s + c.custo * c.quantidade, 0);
+  const mercadoTotal= cards.reduce((s, c) => s + c.mercado * c.quantidade, 0);
+  const vendaTotal  = cards.reduce((s, c) => s + c.venda * c.quantidade, 0);
+  const lucro       = vendaTotal - custoBruto;
+  const pct         = custoBruto > 0 ? ((lucro / custoBruto) * 100).toFixed(1) : 0;
 
-  document.getElementById('sum-total').textContent = total;
-  document.getElementById('sum-unique').textContent = `${cards.length} itens únicos`;
-  document.getElementById('sum-custo').textContent = formatBRL(custoBruto);
+  document.getElementById('sum-total').textContent   = total;
+  document.getElementById('sum-unique').textContent  = `${cards.length} itens únicos`;
+  document.getElementById('sum-custo').textContent   = formatBRL(custoBruto);
   document.getElementById('sum-mercado').textContent = formatBRL(mercadoTotal);
+
   const mercadoDateRaw = localStorage.getItem(MERCADO_DATE_KEY);
-  const mercadoDateEl = document.getElementById('sum-mercado-data');
+  const mercadoDateEl  = document.getElementById('sum-mercado-data');
   if (mercadoDateRaw) {
     const d = new Date(mercadoDateRaw);
     mercadoDateEl.textContent = `Atualizado em ${d.toLocaleDateString('pt-BR')} às ${d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
   } else {
     mercadoDateEl.textContent = 'Nunca atualizado';
   }
-  document.getElementById('sum-venda').textContent = formatBRL(vendaTotal);
-  document.getElementById('sum-lucro').textContent = formatBRL(lucro);
+
+  document.getElementById('sum-venda').textContent   = formatBRL(vendaTotal);
+  document.getElementById('sum-lucro').textContent   = formatBRL(lucro);
   document.getElementById('sum-lucro-pct').textContent = `${lucro >= 0 ? '+' : ''}${pct}% vs. custo`;
 
   const lucroCard = document.getElementById('sum-lucro-card');
   lucroCard.className = `summary-card ${lucro >= 0 ? 'green' : 'red'}`;
-  lucroCard.querySelector('::before');
   const lv = lucroCard.querySelector('.summary-value');
   lv.style.color = lucro >= 0 ? 'var(--green)' : 'var(--red)';
 }
@@ -1756,19 +1576,14 @@ function sortBy(field) {
 
 // ─── FILTERS ──────────────────────────────────────────────────────────
 function clearFilters() {
-  document.getElementById('filter-nome').value = '';
-  document.getElementById('filter-raridade').value = '';
-  document.getElementById('filter-foil').value = '';
-  document.getElementById('filter-colecao').value = '';
-  document.getElementById('filter-estado').value = '';
-  document.getElementById('filter-idioma').value = '';
+  ['filter-nome','filter-raridade','filter-foil','filter-colecao','filter-estado','filter-idioma'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
   renderTable();
 }
 
 // ─── MODAL ────────────────────────────────────────────────────────────
-function openModal() {
-  document.getElementById('modal').classList.add('open');
-}
+function openModal() { document.getElementById('modal').classList.add('open'); }
 
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
@@ -1787,8 +1602,7 @@ document.getElementById('modal').addEventListener('click', function(e) {
 // ─── PANEL TOGGLE ────────────────────────────────────────────────────
 function togglePanel(header) {
   const panel = header.parentElement;
-  const body = panel.querySelector('.panel-body');
-  const icon = header.querySelector('.toggle-icon');
+  const body  = panel.querySelector('.panel-body');
   if (body.style.display === 'none') {
     body.style.display = '';
     panel.classList.remove('collapsed');
@@ -1807,12 +1621,10 @@ function showToast(msg, type = 'ok') {
     toast.style.cssText = 'position:fixed;bottom:28px;right:28px;z-index:9999;padding:12px 20px;border-radius:10px;font-family:Nunito,sans-serif;font-size:0.88rem;font-weight:700;max-width:340px;transition:opacity 0.4s;pointer-events:none;';
     document.body.appendChild(toast);
   }
-  const colors = { ok: '#1a1a35;color:#3dffb0;border:1px solid #3dffb0', error: '#2a0a10;color:#ff5c7a;border:1px solid #ff5c7a', warn: '#1a1400;color:#f6c90e;border:1px solid #f6c90e' };
-  toast.style.cssText += `background:${colors[type] || colors.ok};`;
   toast.style.background = type === 'error' ? '#2a0a10' : type === 'warn' ? '#1a1400' : '#0a1a10';
-  toast.style.color = type === 'error' ? '#ff5c7a' : type === 'warn' ? '#f6c90e' : '#3dffb0';
+  toast.style.color  = type === 'error' ? '#ff5c7a' : type === 'warn' ? '#f6c90e' : '#3dffb0';
   toast.style.border = `1px solid ${type === 'error' ? '#ff5c7a' : type === 'warn' ? '#f6c90e' : '#3dffb0'}`;
-  toast.textContent = msg;
+  toast.textContent  = msg;
   toast.style.opacity = '1';
   clearTimeout(toast._t);
   toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
@@ -1839,11 +1651,9 @@ function exportCSV() {
 }
 
 (async () => {
-  // Inicializa sets primeiro (preenche SETS_DATA) depois popula selects
   initSets();
   populateSelects();
   populateFilters();
-  // Tenta restaurar sessão existente; se não, mostra tela de login
   if (!tryRestoreSession()) {
     document.getElementById('auth-screen').classList.add('visible');
   }
