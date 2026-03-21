@@ -768,7 +768,6 @@
                 <th onclick="sortBy('quantidade')">Qtd ↕</th>
                 <th onclick="sortBy('custo')">Custo (R$) ↕</th>
                 <th onclick="sortBy('mercado')">Mercado (R$) ↕</th>
-                <th onclick="sortBy('precoVenda')">Preço Venda (R$) ↕</th>
                 <th onclick="sortBy('dataCompra')">Compra ↕</th>
                 <th>Ações</th>
               </tr>
@@ -868,20 +867,12 @@
         <label>Valor de Mercado (R$)</label>
         <input type="number" id="f-mercado" step="0.01" min="0" placeholder="0,00">
       </div>
-      <div class="form-group">
-        <label>Valor de Venda (R$)</label>
-        <input type="number" id="f-venda" step="0.01" min="0" placeholder="0,00">
-      </div>
     </div>
     <div class="section-title">Datas</div>
     <div class="form-grid">
       <div class="form-group">
         <label>Data da Compra</label>
         <input type="date" id="f-dataCompra">
-      </div>
-      <div class="form-group">
-        <label>Data de Venda</label>
-        <input type="date" id="f-dataVenda">
       </div>
     </div>
     <div class="form-actions">
@@ -1415,8 +1406,6 @@ async function saveCard() {
   const custo   = parseFloat(document.getElementById('f-custo').value)   || 0;
   const mercado = parseFloat(document.getElementById('f-mercado').value) || 0;
   const mercadoAnterior = editingId ? (cards.find(c => c.id === editingId)?.mercado || 0) : 0;
-  const venda   = parseFloat(document.getElementById('f-venda').value)   || 0;
-
   const card = {
     nome,
     codigo:    document.getElementById('f-codigo').value.trim(),
@@ -1427,9 +1416,8 @@ async function saveCard() {
     estado:    document.getElementById('f-estado').value,
     idioma:    document.getElementById('f-idioma').value,
     quantidade: qtd,
-    custo, mercado, venda,
+    custo, mercado,
     dataCompra: document.getElementById('f-dataCompra').value,
-    dataVenda:  document.getElementById('f-dataVenda').value,
   };
 
   const saveBtn = document.querySelector('#modal .btn-primary');
@@ -1552,9 +1540,7 @@ function editCard(id) {
   document.getElementById('f-quantidade').value = card.quantidade;
   document.getElementById('f-custo').value = card.custo;
   document.getElementById('f-mercado').value = card.mercado;
-  document.getElementById('f-venda').value = card.venda;
   document.getElementById('f-dataCompra').value = card.dataCompra;
-  document.getElementById('f-dataVenda').value = card.dataVenda;
   document.getElementById('modal-title').textContent = '✦ Editar Carta';
   openModal();
 }
@@ -1645,7 +1631,6 @@ function renderTable() {
       <td style="text-align:center;font-weight:700;">${c.quantidade}</td>
       <td class="currency neutral">${formatBRL(c.custo)}</td>
       <td class="currency">${formatBRL(c.mercado)}</td>
-      <td class="currency">${formatBRL(c.precoVenda || 0)}</td>
       <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataCompra)}</td>
       <td>
         <div style="display:flex;gap:5px;">
@@ -1710,6 +1695,7 @@ function renderVendidos() {
       <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataVenda)}</td>
       <td>
         <div style="display:flex;gap:5px;">
+          <button class="btn btn-edit btn-action" data-tooltip="Editar venda" onclick="editVendido('${c.id}')">✏</button>
           <button class="btn btn-secondary btn-action btn-sm" data-tooltip="Desfazer venda" onclick="desfazerVenda('${c.id}')" style="font-size:0.72rem;">↩</button>
           <button class="btn btn-danger btn-action" data-tooltip="Excluir registro" onclick="deleteCard('${c.id}')">✕</button>
         </div>
@@ -1797,6 +1783,76 @@ Quantas deseja marcar como vendida? (1 a ${card.quantidade})`,
     switchTab('vendidos');
   } catch(e) {
     showToast('Erro ao registrar venda: ' + e.message, 'error');
+  }
+}
+
+// ─── EDITAR VENDA ─────────────────────────────────────────────────────
+function editVendido(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+
+  // Mini modal inline via showVendaModal
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+  overlay.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:95%;max-width:440px;box-shadow:0 20px 80px rgba(0,0,0,0.7);">
+      <div style="font-family:'Bangers',cursive;font-size:1.4rem;letter-spacing:2px;color:var(--accent);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+        ✏ Editar Venda
+      </div>
+      <div style="font-size:0.88rem;color:var(--text2);margin-bottom:16px;">
+        <strong>${card.nome}</strong> — ${card.quantidade} unidade(s)
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);display:block;margin-bottom:5px;">Preço de Venda (R$) por unidade</label>
+          <input type="number" id="ev-preco" step="0.01" min="0"
+            value="${card.precoVenda || ''}"
+            placeholder="0,00"
+            style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Nunito',sans-serif;font-size:0.88rem;padding:9px 12px;">
+        </div>
+        <div>
+          <label style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);display:block;margin-bottom:5px;">Data da Venda</label>
+          <input type="date" id="ev-data"
+            value="${card.dataVenda || ''}"
+            style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Nunito',sans-serif;font-size:0.88rem;padding:9px 12px;">
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
+        <button onclick="this.closest('[style*=fixed]').remove()"
+          style="padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;">
+          Cancelar
+        </button>
+        <button id="ev-save-btn"
+          onclick="saveVendaEdit('${id}', this.closest('[style*=fixed]'))"
+          style="padding:8px 18px;border-radius:8px;border:none;background:var(--accent3);color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;cursor:pointer;">
+          💾 Salvar
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
+async function saveVendaEdit(id, overlay) {
+  const preco = parseFloat(document.getElementById('ev-preco').value.replace(',','.')) || 0;
+  const data  = document.getElementById('ev-data').value || null;
+  const btn   = document.getElementById('ev-save-btn');
+  btn.textContent = '⏳ Salvando...';
+  btn.disabled = true;
+  try {
+    await sbFetch(`${TABLE}?id=eq.${id}`, {
+      method: 'PATCH',
+      prefer: 'return=representation',
+      body: JSON.stringify({ preco_venda: preco, data_venda: data }),
+    });
+    showToast('✅ Venda atualizada!');
+    overlay.remove();
+    await loadCards();
+    renderVendidos();
+  } catch(e) {
+    showToast('Erro ao salvar: ' + e.message, 'error');
+    btn.textContent = '💾 Salvar';
+    btn.disabled = false;
   }
 }
 
@@ -1891,7 +1947,7 @@ function closeModal() {
   document.getElementById('modal').classList.remove('open');
   editingId = null;
   document.getElementById('modal-title').textContent = '✦ Nova Carta';
-  ['f-nome','f-codigo','f-custo','f-mercado','f-venda','f-dataCompra','f-dataVenda','f-colecao-search'].forEach(id => {
+  ['f-nome','f-codigo','f-custo','f-mercado','f-dataCompra','f-colecao-search'].forEach(id => {
     document.getElementById(id).value = '';
   });
   document.getElementById('f-quantidade').value = 1;
