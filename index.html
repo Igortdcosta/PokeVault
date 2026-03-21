@@ -426,6 +426,69 @@
     border-left: 2px solid var(--accent3);
   }
 
+
+  /* ── TOOLTIPS ── */
+  .btn-action {
+    position: relative;
+  }
+  .btn-action::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a2a3a;
+    color: #e8eff8;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid #2a4a6a;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 999;
+  }
+  .btn-action:hover::after { opacity: 1; }
+
+  /* ── VENDA BUTTON ── */
+  .btn-venda {
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+  .btn-venda:hover { background: var(--green); color: #001a10; }
+
+  /* ── TABS ── */
+  .tabs-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--border);
+  }
+  .tab-btn {
+    padding: 11px 24px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--muted);
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin-bottom: -2px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent3); border-bottom-color: var(--accent3); }
+  .tab-btn.active.vendidos { color: var(--green); border-bottom-color: var(--green); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 3px; }
@@ -677,36 +740,74 @@
   </div>
 
   <div class="panel">
-    <div class="panel-header" style="cursor:default;">
-      <span class="panel-title">📦 Coleção</span>
-      <span style="font-size:0.8rem;color:var(--muted);" id="count-label">0 cartas</span>
+    <div class="panel-header" style="cursor:default; flex-direction:column; align-items:flex-start; gap:0; padding-bottom:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding-bottom:10px;">
+        <span class="panel-title">📦 Coleção</span>
+        <span style="font-size:0.8rem;color:var(--muted);" id="count-label">0 cartas</span>
+      </div>
+      <div class="tabs-row">
+        <button class="tab-btn active" id="tab-estoque" onclick="switchTab('estoque')">📦 Em Estoque</button>
+        <button class="tab-btn vendidos" id="tab-vendidos" onclick="switchTab('vendidos')">💰 Vendidos</button>
+      </div>
     </div>
     <div class="panel-body" style="padding:0;">
-      <div class="table-wrapper">
-        <table id="main-table">
-          <thead>
-            <tr>
-              <th onclick="sortBy('nome')">Nome ↕</th>
-              <th onclick="sortBy('codigo')">Código ↕</th>
-              <th onclick="sortBy('raridade')">Raridade ↕</th>
-              <th onclick="sortBy('foil')">Foil/Holo ↕</th>
-              <th onclick="sortBy('colecao')">Coleção ↕</th>
-              <th onclick="sortBy('estado')">Estado ↕</th>
-              <th onclick="sortBy('idioma')">Idioma ↕</th>
-              <th onclick="sortBy('quantidade')">Qtd ↕</th>
-              <th onclick="sortBy('custo')">Custo (R$) ↕</th>
-              <th onclick="sortBy('mercado')">Mercado (R$) ↕</th>
-              <th onclick="sortBy('venda')">Venda (R$) ↕</th>
-              <th onclick="sortBy('dataCompra')">Compra ↕</th>
-              <th onclick="sortBy('dataVenda')">Venda ↕</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="table-body">
-            <tr><td colspan="14"><div class="empty-state"><div class="icon">🃏</div><p>Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.</p></div></td></tr>
-          </tbody>
-        </table>
+
+      <!-- ABA ESTOQUE -->
+      <div class="tab-content active" id="content-estoque">
+        <div class="table-wrapper">
+          <table id="main-table">
+            <thead>
+              <tr>
+                <th onclick="sortBy('nome')">Nome ↕</th>
+                <th onclick="sortBy('codigo')">Código ↕</th>
+                <th onclick="sortBy('raridade')">Raridade ↕</th>
+                <th onclick="sortBy('foil')">Foil/Holo ↕</th>
+                <th onclick="sortBy('colecao')">Coleção ↕</th>
+                <th onclick="sortBy('estado')">Estado ↕</th>
+                <th onclick="sortBy('idioma')">Idioma ↕</th>
+                <th onclick="sortBy('quantidade')">Qtd ↕</th>
+                <th onclick="sortBy('custo')">Custo (R$) ↕</th>
+                <th onclick="sortBy('mercado')">Mercado (R$) ↕</th>
+                <th onclick="sortBy('precoVenda')">Preço Venda (R$) ↕</th>
+                <th onclick="sortBy('dataCompra')">Compra ↕</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr><td colspan="13"><div class="empty-state"><div class="icon">🃏</div><p>Nenhuma carta em estoque.<br>Clique em <strong>+ Nova Carta</strong> para começar.</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- ABA VENDIDOS -->
+      <div class="tab-content" id="content-vendidos">
+        <div class="table-wrapper">
+          <table id="vendidos-table">
+            <thead>
+              <tr>
+                <th onclick="sortVendidos('nome')">Nome ↕</th>
+                <th onclick="sortVendidos('codigo')">Código ↕</th>
+                <th onclick="sortVendidos('raridade')">Raridade ↕</th>
+                <th onclick="sortVendidos('foil')">Foil/Holo ↕</th>
+                <th onclick="sortVendidos('colecao')">Coleção ↕</th>
+                <th onclick="sortVendidos('estado')">Estado ↕</th>
+                <th onclick="sortVendidos('idioma')">Idioma ↕</th>
+                <th onclick="sortVendidos('quantidade')">Qtd Vendida ↕</th>
+                <th onclick="sortVendidos('custo')">Custo (R$) ↕</th>
+                <th onclick="sortVendidos('precoVenda')">Preço Venda (R$) ↕</th>
+                <th onclick="sortVendidos('lucro')">Lucro (R$) ↕</th>
+                <th onclick="sortVendidos('dataVenda')">Data Venda ↕</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="vendidos-body">
+              <tr><td colspan="13"><div class="empty-state"><div class="icon">💰</div><p>Nenhuma carta vendida ainda.</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 </main>
@@ -1258,7 +1359,8 @@ function dbToCard(row) {
     quantidade: row.quantidade || 1,
     custo: parseFloat(row.custo) || 0,
     mercado: parseFloat(row.mercado) || 0,
-    venda: parseFloat(row.venda) || 0,
+    precoVenda: parseFloat(row.preco_venda) || 0,
+    vendido: row.vendido || false,
     dataCompra: row.data_compra || '',
     dataVenda: row.data_venda || '',
   };
@@ -1278,7 +1380,8 @@ function cardToDb(card) {
     quantidade: card.quantidade,
     custo: card.custo,
     mercado: card.mercado,
-    venda: card.venda,
+    preco_venda: card.precoVenda || null,
+    vendido: card.vendido || false,
     data_compra: card.dataCompra || null,
     data_venda: card.dataVenda || null,
     ...(userId ? { user_id: userId } : {}),
@@ -1297,6 +1400,11 @@ function cardDuplicateKey(card) {
     card.estado,
     card.idioma,
   ].join('||');
+}
+
+// Duplicate check only among estoque cards
+function findDuplicate(card) {
+  return cards.find(c => !c.vendido && c.id !== (editingId || null) && cardDuplicateKey(c) === cardDuplicateKey(card));
 }
 
 // ─── SAVE / EDIT / DELETE ─────────────────────────────────────────────
@@ -1340,7 +1448,7 @@ async function saveCard() {
     } else {
       // ── NOVA CARTA: verifica se já existe carta idêntica ──────────
       const newKey = cardDuplicateKey(card);
-      const existing = cards.find(c => cardDuplicateKey(c) === newKey);
+      const existing = cards.find(c => !c.vendido && cardDuplicateKey(c) === newKey);
 
       if (existing) {
         // Agrupa: incrementa quantidade e recalcula médias ponderadas
@@ -1452,7 +1560,8 @@ function editCard(id) {
 }
 
 // ─── RENDER TABLE ─────────────────────────────────────────────────────
-function getFilteredSorted() {
+function getFilteredSorted(source) {
+  const pool  = source || cards.filter(c => !c.vendido);
   const fNome = document.getElementById('filter-nome').value.toLowerCase();
   const fRar  = document.getElementById('filter-raridade').value;
   const fFoil = document.getElementById('filter-foil').value;
@@ -1460,7 +1569,7 @@ function getFilteredSorted() {
   const fEst  = document.getElementById('filter-estado').value;
   const fIdi  = document.getElementById('filter-idioma').value;
 
-  let filtered = cards.filter(c => {
+  let filtered = pool.filter(c => {
     if (fNome && !c.nome.toLowerCase().includes(fNome)) return false;
     if (fRar  && c.raridade !== fRar)  return false;
     if (fFoil && c.foil !== fFoil)     return false;
@@ -1490,13 +1599,31 @@ function formatDate(d) {
 
 function formatBRL(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
+// ─── TABS ─────────────────────────────────────────────────────────────
+let activeTab = 'estoque';
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tab-estoque').classList.toggle('active', tab === 'estoque');
+  document.getElementById('tab-vendidos').classList.toggle('active', tab === 'vendidos');
+  document.getElementById('content-estoque').classList.toggle('active', tab === 'estoque');
+  document.getElementById('content-vendidos').classList.toggle('active', tab === 'vendidos');
+  if (tab === 'vendidos') renderVendidos();
+}
+
+// ─── RENDER ESTOQUE ────────────────────────────────────────────────────
 function renderTable() {
-  const data = getFilteredSorted();
+  const estoque = cards.filter(c => !c.vendido);
+  const data = getFilteredSorted(estoque);
   const tbody = document.getElementById('table-body');
-  document.getElementById('count-label').textContent = `${data.length} carta${data.length !== 1 ? 's' : ''}`;
+  const total = estoque.reduce((s, c) => s + c.quantidade, 0);
+  document.getElementById('count-label').textContent =
+    activeTab === 'estoque'
+      ? `${total} carta${total !== 1 ? 's' : ''} em estoque`
+      : document.getElementById('count-label').textContent;
 
   if (data.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="14"><div class="empty-state"><div class="icon">🃏</div><p>${cards.length === 0 ? 'Nenhuma carta cadastrada ainda.<br>Clique em <strong>+ Nova Carta</strong> para começar.' : 'Nenhuma carta encontrada com os filtros aplicados.'}</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="13"><div class="empty-state"><div class="icon">🃏</div><p>${estoque.length === 0 ? 'Nenhuma carta em estoque.<br>Clique em <strong>+ Nova Carta</strong> para começar.' : 'Nenhuma carta encontrada com os filtros aplicados.'}</p></div></td></tr>`;
     return;
   }
 
@@ -1506,40 +1633,215 @@ function renderTable() {
     const foilBadge = getBadge(FOILS, c.foil);
     const foilLabel = getLabel(FOILS, c.foil);
     const estBadge  = getBadge(ESTADOS, c.estado);
-    const profit    = (c.venda - c.custo) * c.quantidade;
-    const profitClass = profit > 0 ? 'positive' : profit < 0 ? 'negative' : 'neutral';
 
     return `<tr>
       <td><strong>${c.nome}</strong></td>
       <td style="color:var(--muted);">${c.codigo || '—'}</td>
       <td><span class="badge ${rarBadge}">${rarLabel || c.raridade}</span></td>
       <td><span class="badge ${foilBadge}">${foilLabel}</span></td>
-      <td style="font-size:0.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
+      <td style="font-size:0.78rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
       <td><span class="badge ${estBadge}">${c.estado}</span></td>
       <td style="font-size:0.82rem;">${c.idioma}</td>
       <td style="text-align:center;font-weight:700;">${c.quantidade}</td>
       <td class="currency neutral">${formatBRL(c.custo)}</td>
       <td class="currency">${formatBRL(c.mercado)}</td>
-      <td class="currency ${profitClass}">${formatBRL(c.venda)}</td>
+      <td class="currency">${formatBRL(c.precoVenda || 0)}</td>
       <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataCompra)}</td>
-      <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataVenda)}</td>
       <td>
-        <div style="display:flex;gap:6px;">
-          <button class="btn btn-edit" onclick="editCard('${c.id}')">✏</button>
-          <button class="btn btn-danger" onclick="deleteCard('${c.id}')">✕</button>
+        <div style="display:flex;gap:5px;">
+          <button class="btn btn-venda btn-action" data-tooltip="Registrar venda" onclick="venderCard('${c.id}')">$</button>
+          <button class="btn btn-edit btn-action" data-tooltip="Editar carta" onclick="editCard('${c.id}')">✏</button>
+          <button class="btn btn-danger btn-action" data-tooltip="Excluir carta" onclick="deleteCard('${c.id}')">✕</button>
         </div>
       </td>
     </tr>`;
   }).join('');
 }
 
+// ─── RENDER VENDIDOS ──────────────────────────────────────────────────
+let sortVField = 'dataVenda';
+let sortVAsc = false;
+
+function sortVendidos(field) {
+  if (sortVField === field) sortVAsc = !sortVAsc;
+  else { sortVField = field; sortVAsc = true; }
+  renderVendidos();
+}
+
+function renderVendidos() {
+  const vendidos = cards.filter(c => c.vendido);
+  const tbody = document.getElementById('vendidos-body');
+  const totalVendido = vendidos.reduce((s, c) => s + c.quantidade, 0);
+  document.getElementById('count-label').textContent = `${totalVendido} carta${totalVendido !== 1 ? 's' : ''} vendida${totalVendido !== 1 ? 's' : ''}`;
+
+  if (vendidos.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="13"><div class="empty-state"><div class="icon">💰</div><p>Nenhuma carta vendida ainda.<br>Use o botão <strong>$</strong> no estoque para registrar vendas.</p></div></td></tr>`;
+    return;
+  }
+
+  // Sort
+  const sorted = [...vendidos].sort((a, b) => {
+    let va = a[sortVField] ?? '', vb = b[sortVField] ?? '';
+    if (typeof va === 'number') return sortVAsc ? va - vb : vb - va;
+    return sortVAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+
+  tbody.innerHTML = sorted.map(c => {
+    const rarBadge  = getBadge(RARIDADES, c.raridade);
+    const rarLabel  = getLabel(RARIDADES, c.raridade).replace(/^.+?—?\s*/, '').replace(/\([^)]+\)/,'').trim();
+    const foilBadge = getBadge(FOILS, c.foil);
+    const foilLabel = getLabel(FOILS, c.foil);
+    const estBadge  = getBadge(ESTADOS, c.estado);
+    const lucro     = (c.precoVenda - c.custo) * c.quantidade;
+    const lucroClass = lucro > 0 ? 'positive' : lucro < 0 ? 'negative' : 'neutral';
+
+    return `<tr>
+      <td><strong>${c.nome}</strong></td>
+      <td style="color:var(--muted);">${c.codigo || '—'}</td>
+      <td><span class="badge ${rarBadge}">${rarLabel || c.raridade}</span></td>
+      <td><span class="badge ${foilBadge}">${foilLabel}</span></td>
+      <td style="font-size:0.78rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${c.colecao}</td>
+      <td><span class="badge ${estBadge}">${c.estado}</span></td>
+      <td style="font-size:0.82rem;">${c.idioma}</td>
+      <td style="text-align:center;font-weight:700;">${c.quantidade}</td>
+      <td class="currency neutral">${formatBRL(c.custo)}</td>
+      <td class="currency positive">${formatBRL(c.precoVenda || 0)}</td>
+      <td class="currency ${lucroClass}">${formatBRL(lucro)}</td>
+      <td style="color:var(--muted);font-size:0.8rem;">${formatDate(c.dataVenda)}</td>
+      <td>
+        <div style="display:flex;gap:5px;">
+          <button class="btn btn-secondary btn-action btn-sm" data-tooltip="Desfazer venda" onclick="desfazerVenda('${c.id}')" style="font-size:0.72rem;">↩</button>
+          <button class="btn btn-danger btn-action" data-tooltip="Excluir registro" onclick="deleteCard('${c.id}')">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── VENDER CARD ──────────────────────────────────────────────────────
+async function venderCard(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+
+  // Pergunta quantidade a vender
+  let qtdVender = 1;
+  if (card.quantidade > 1) {
+    const input = prompt(
+      `"${card.nome}" tem ${card.quantidade} unidades em estoque.
+Quantas deseja marcar como vendida? (1 a ${card.quantidade})`,
+      '1'
+    );
+    if (input === null) return;
+    qtdVender = parseInt(input);
+    if (isNaN(qtdVender) || qtdVender < 1 || qtdVender > card.quantidade) {
+      alert(`Quantidade inválida. Digite um número entre 1 e ${card.quantidade}.`);
+      return;
+    }
+  } else {
+    if (!confirm(`Marcar "${card.nome}" como vendida?`)) return;
+  }
+
+  // Pergunta preço de venda
+  const precoInput = prompt(
+    `Qual foi o preço de venda por unidade de "${card.nome}"?`,
+    card.precoVenda > 0 ? card.precoVenda.toFixed(2) : card.mercado > 0 ? card.mercado.toFixed(2) : '0.00'
+  );
+  if (precoInput === null) return;
+  const precoVenda = parseFloat(precoInput.replace(',', '.')) || 0;
+
+  // Pergunta data de venda
+  const hoje = new Date().toISOString().split('T')[0];
+  const dataInput = prompt('Data da venda? (AAAA-MM-DD)', hoje);
+  if (dataInput === null) return;
+  const dataVenda = dataInput.trim() || hoje;
+
+  try {
+    const novaQtdEstoque = card.quantidade - qtdVender;
+
+    if (novaQtdEstoque === 0) {
+      // Marca a própria carta como vendida
+      await sbFetch(`${TABLE}?id=eq.${id}`, {
+        method: 'PATCH',
+        prefer: 'return=representation',
+        body: JSON.stringify({
+          vendido: true,
+          quantidade: qtdVender,
+          preco_venda: precoVenda,
+          data_venda: dataVenda,
+        }),
+      });
+    } else {
+      // Reduz estoque e cria novo registro como vendido
+      await sbFetch(`${TABLE}?id=eq.${id}`, {
+        method: 'PATCH',
+        prefer: 'return=representation',
+        body: JSON.stringify({ quantidade: novaQtdEstoque }),
+      });
+      await sbFetch(`${TABLE}`, {
+        method: 'POST',
+        prefer: 'return=representation',
+        body: JSON.stringify({
+          ...cardToDb(card),
+          quantidade: qtdVender,
+          vendido: true,
+          preco_venda: precoVenda,
+          data_venda: dataVenda,
+        }),
+      });
+    }
+
+    const lucro = (precoVenda - card.custo) * qtdVender;
+    const lucroStr = lucro >= 0 ? `+${formatBRL(lucro)}` : formatBRL(lucro);
+    showToast(`💰 ${qtdVender}x "${card.nome}" vendida(s)! Lucro: ${lucroStr}`, lucro >= 0 ? 'ok' : 'warn');
+    await loadCards();
+    switchTab('vendidos');
+  } catch(e) {
+    showToast('Erro ao registrar venda: ' + e.message, 'error');
+  }
+}
+
+// ─── DESFAZER VENDA ───────────────────────────────────────────────────
+async function desfazerVenda(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+  if (!confirm(`Desfazer venda de "${card.nome}" e devolver ao estoque?`)) return;
+  try {
+    // Verifica se já existe carta igual no estoque para reagrupar
+    const chave = cardDuplicateKey(card);
+    const noEstoque = cards.find(c => !c.vendido && cardDuplicateKey(c) === chave);
+    if (noEstoque) {
+      const novaQtd = noEstoque.quantidade + card.quantidade;
+      await sbFetch(`${TABLE}?id=eq.${noEstoque.id}`, {
+        method: 'PATCH',
+        prefer: 'return=representation',
+        body: JSON.stringify({ quantidade: novaQtd }),
+      });
+      await sbFetch(`${TABLE}?id=eq.${id}`, { method: 'DELETE' });
+    } else {
+      await sbFetch(`${TABLE}?id=eq.${id}`, {
+        method: 'PATCH',
+        prefer: 'return=representation',
+        body: JSON.stringify({ vendido: false, data_venda: null, preco_venda: null }),
+      });
+    }
+    showToast('↩ Venda desfeita. Carta devolvida ao estoque.');
+    await loadCards();
+    switchTab('estoque');
+  } catch(e) {
+    showToast('Erro ao desfazer venda: ' + e.message, 'error');
+  }
+}
+
 // ─── SUMMARY ──────────────────────────────────────────────────────────
 function updateSummary() {
-  const total       = cards.reduce((s, c) => s + c.quantidade, 0);
-  const custoBruto  = cards.reduce((s, c) => s + c.custo * c.quantidade, 0);
-  const mercadoTotal= cards.reduce((s, c) => s + c.mercado * c.quantidade, 0);
-  const vendaTotal  = cards.reduce((s, c) => s + c.venda * c.quantidade, 0);
-  const lucro       = vendaTotal - custoBruto;
+  const estoque     = cards.filter(c => !c.vendido);
+  const vendidos    = cards.filter(c => c.vendido);
+  const total       = estoque.reduce((s, c) => s + c.quantidade, 0);
+  const custoBruto  = estoque.reduce((s, c) => s + c.custo * c.quantidade, 0);
+  const mercadoTotal= estoque.reduce((s, c) => s + c.mercado * c.quantidade, 0);
+  const vendaTotal  = estoque.reduce((s, c) => s + (c.precoVenda || 0) * c.quantidade, 0);
+  const lucroVendas = vendidos.reduce((s, c) => s + ((c.precoVenda || 0) - c.custo) * c.quantidade, 0);
+  const lucro       = vendaTotal > 0 ? vendaTotal - custoBruto : lucroVendas;
   const pct         = custoBruto > 0 ? ((lucro / custoBruto) * 100).toFixed(1) : 0;
 
   document.getElementById('sum-total').textContent   = total;
