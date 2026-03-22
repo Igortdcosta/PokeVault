@@ -1390,6 +1390,7 @@ function cardDuplicateKey(card) {
     card.colecao,
     card.estado,
     card.idioma,
+    parseFloat(card.custo).toFixed(2), // cartas com custo diferente não são agrupadas
   ].join('||');
 }
 
